@@ -1,0 +1,258 @@
+.agentContent {
+    overflow: hidden;
+    margin-top: 22px;
+    margin-left: -8px;
+}
+.agentContent > .card-box {
+    float: left;
+    box-sizing: border-box;
+    color: #666;
+    border: 1px solid #eee;
+    box-shadow: 0 0 8px 1px rgba(0,0,0,.12);
+    margin-top: 8px;
+}
+.agentContent > .card-box .card-title {
+    padding-bottom: 10px;
+}
+.agentContent > .card-box .card-info {
+    overflow: hidden;
+}
+.agentContent > .card-box:nth-child(1) {
+    width: 27%;
+    margin-right: 3%;
+    margin-left: 8px;
+    padding-bottom: 3px;
+}
+.agentContent > .card-box:nth-child(1) .card-info > div {
+    float: left;
+    width: 100%;
+    overflow: hidden;
+}
+.agentContent > .card-box:nth-child(2) {
+    width: 69%;
+    margin-bottom: 8px;
+}
+.news-info {
+    width: 100%;
+}
+.news-info > p {
+    float: left;
+    display: block;
+    width: 75%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    /*text-overflow: clip;*/
+}
+.news-date {
+    display: block;
+    float: right;
+    width: 10%;
+    text-align: right;
+}
+.box-card {
+    float: left;
+    width: 23.5%;
+    color: #000;
+    padding: 7px 10px;
+    border: 1px solid #eee;
+    border-radius: 4px;
+    background-color: #fff;
+    overflow: hidden;
+    box-shadow: 0 0 8px 1px rgba(0,0,0,.12);
+    box-sizing: border-box;
+    min-width: 180px;
+    margin-top: 8px;
+}
+
+.box-card:nth-child(1),
+.box-card:nth-child(2),
+.box-card:nth-child(3) {
+    margin-right: 2%;
+}
+.box-card:nth-child(1) .text {
+    padding-top: 3px;
+}
+.box-card:nth-child(2) .text {
+    padding-top: 7px;
+}
+.box-card:nth-child(3) .text {
+    padding-top: 5px;
+}
+.box-card .fa {
+    color: #3384d2;
+}
+.box-card .text {
+    color: #666;
+    text-align: center;
+    line-height: 30px;
+    padding-bottom: 10px;
+}
+.box-card .text p:nth-child(1) {
+    font-size: 24px;
+    color: #333;
+}
+.box-card .text p:nth-child(2) {
+    color: #999;
+}
+.box-card .fa-user {
+    font-size: 22px;
+    padding-top: 2px;
+}
+.box-card .fa-credit-card-alt {
+    padding-top: 2px;
+    font-size: 17px;
+}
+.box-card .fa-envelope {
+    font-size: 20px;
+    padding-top: 2px;
+}
+.box-card .fa-mobile {
+    font-size: 28px;
+}
+.box-card .fa-pencil {
+    color: #666;
+    float: right;
+    font-size: 16px;
+}
+
+.myInfo .baseListContent .el-tabs.agentTabs {
+    top: 30px;
+}
+.myInfo .baseListContent .el-tabs.agentTabs1 {
+    top: 0;
+}
+.myInfo .baseListContent .el-tabs {
+    top: 150px;
+    margin-bottom: 50px;
+    overflow: hidden;
+    box-shadow: 0 0 8px 1px rgba(0,0,0,.12);
+    border-top-right-radius: 8px;
+    border-top-left-radius: 8px;
+}
+.myInfo .baseListContent .el-tabs__nav {
+    float: left;
+}
+.myInfo .baseListContent .el-tabs__header {
+    border-bottom: none;
+}
+
+
+.myInfo > .el-tabs .el-tabs__item {
+    padding: 0 9px;
+    font-size: 18px;
+}
+
+.myInfo .el-tab-pane.baseInfo {
+    padding: 30px 30px 0;
+}
+.myInfo .el-form-item__content > i {
+    padding: 11px;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+.myInfo .el-collapse-item__wrap {
+    margin-top: 10px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .12), 0 0 6px 0 rgba(0, 0, 0, .04);
+}
+.myInfo .el-input.is-disabled .el-input__inner {
+    color: #999;
+    background-color: #f3f9ff;
+    border: none;
+    padding-left: 20px;
+}
+.myInfo .el-form--label-top .el-form-item__label {
+    padding-left: 10px;
+    color: #666;
+}
+
+.myInfo .item,
+.myInfo .updateImg > div {
+    width: 24%;
+    margin-right: 1.33%;
+    float: left;
+}
+.myInfo .item:nth-child(4),
+.myInfo .item:nth-child(8),
+.myInfo .item:nth-child(12),
+.myInfo .item:nth-child(16),
+.myInfo .updateImg > div:nth-child(4) {
+    margin-right: 0;
+}
+
+.myInfo .updateImg,
+.myInfo .item-btn {
+    overflow: hidden;
+    float: left;
+}
+
+.myInfo .upload-name {
+    display: block;
+    margin-bottom: 10px;
+    font-size: 16px;
+    color: #666;
+}
+
+.myInfo .updateImg,
+.myInfo .upload-demo,
+.myInfo .el-upload-dragger,
+.myInfo .item-btn {
+    width: 100%;
+}
+
+.myInfo .el-upload-dragger {
+    border: none;
+}
+
+.avatar{
+    width: 370px;
+    height: 177px;
+}
+.mt4Dialog .el-dialog--small {
+
+    width: 30%;
+}
+.myInfo .el-upload {
+    display: block;
+}
+
+.myInfo .item-btn .el-button {
+    margin-top: 50px;
+}
+
+.myInfo .item-btn .el-button:nth-child(1) {
+    margin-left: 50%;
+    transform: translateX(-200%);
+}
+
+.fa-pencil {
+    cursor: pointer;
+}
+
+.addAccount {
+    position: absolute;
+    right: 0;
+    top: 165px;
+    z-index: 1;
+    color: #3384d2;
+    font-size: 16px;
+    width: 160px;
+}
+.modifyLevel .el-input{
+    width: 80%;
+}
+
+.balanceStyle span {
+    display: inline-block;
+    width: 45%;
+    color: #ff5353;
+}
+
+.balanceStyle span:nth-child(5){
+    color: #4d9ffb;
+}
+
+.noBottom.el-form-item {
+    margin-bottom: 0;
+}

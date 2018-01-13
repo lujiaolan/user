@@ -1,0 +1,427 @@
+/*卡片统一阴影 start*/
+.boxShadow {
+    box-shadow: 0 0 8px 1px rgba(0,0,0,.12);
+    border: 1px solid #eee;
+}
+/*卡片统一阴影 end*/
+
+/*按钮样式统一 start*/
+.content .el-button:focus,
+.content .el-button:hover {
+    border-color: #3384d2;
+    color: #3384d2;
+}
+.content .el-button--primary,
+.content .el-button--primary:focus,
+.content .el-button--primary:hover{
+    background-color: #3384d2;
+    border-color: #3384d2;
+    color: #fff;
+}
+/*按钮样式统一 end*/
+
+/*首页图表样式 start*/
+.chart-wrap {
+    /*width: 100%;*/
+    height: 260px;
+    margin-top: 22px;
+    padding: 20px;
+}
+/*首页图表样式 end*/
+
+/*页面顶部显示信息的卡片样式 start*/
+.title-card {
+    overflow: auto;
+    margin-top: 8px;
+    padding: 20px;
+}
+.title-info-card.width3 {
+    width: 28%;
+    margin-right: 8%;
+    background-color: #f3f9ff;
+}
+.title-info-card.width5 {
+    width: 18.2%;
+    margin-right: 2.2%;
+    background-color: #f3f9ff;
+}
+.title-info-card.width4 {
+    width: 23.2%;
+    margin-right: 2.3%;
+    background-color: #f3f9ff;
+}
+.title-info-card {
+    float: left;
+    /*width: 18.272%;*/
+    /*border: 1px solid #e4e4e4;*/
+    border-radius: 5px;
+    /*margin-right: 2.16%;*/
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+    padding-top: 1.5%;
+    color: #666;
+    box-sizing: border-box;
+    min-width: 120px;
+}
+
+.title-info-card:last-child,
+.title-info-card.card4:last-child {
+    margin-right: 0;
+}
+
+.title-info-card .title-info-name {
+    font-size: 14px;
+    padding: 3% 0 5%;
+}
+.title-info-card.card4 {
+    width: 22%;
+    margin-right: 4%;
+}
+/*页面顶部显示信息的卡片样式 end*/
+/*每个信息框的标题统一样式 start*/
+.infoList-title {
+    height: 50px;
+    line-height: 50px;
+    background-color: #000;
+    padding: 0 20px;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    text-align: left;
+    color: #fff;
+    font-size: 18px;
+    font-weight: bold;
+}
+/*每个信息框的标题统一样式 end*/
+/*不同颜色的按钮 start*/
+.el-button.red-button,
+.red-button.el-button:focus,
+.red-button.el-button:hover {
+    color: #fff;
+    background-color: #f86c6b;
+    border-color: #f86c6b;
+}
+.el-button.blue-button,
+.blue-button.el-button:focus,
+.blue-button.el-button:hover {
+    color: #fff;
+    background-color: #63c2de;
+    border-color: #63c2de;
+}
+.el-button.yellow-button,
+.yellow-button.el-button:focus,
+.yellow-button.el-button:hover {
+    color: #fff;
+    background-color: #f8cb00;
+    border-color: #f8cb00;
+}
+.el-button.black-button,
+.black-button.el-button:focus,
+.black-button.el-button:hover {
+    color: #fff;
+    background-color: #0b1418;
+    border-color: #0b1418;
+}
+
+/*不同颜色的按钮 end*/
+/*分页器样式start*/
+#pagination {
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+}
+#pagination ul,
+#pagination #pageU {
+    display: inline-block;
+    overflow: hidden;
+}
+#pagination #pageU {
+    float: left;
+}
+#pagination ul li {
+    padding: 0 10px;
+    margin: 0 15px;
+    color: #cacaca;
+    float: left;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: normal;
+}
+#pagination ul li.curPage {
+    border-width: 10px;
+    border-top: 1px solid #000;
+    color: #666;
+}
+
+#pagination .prev-arrow {
+    display: inline-block;
+    width: 13px;
+    height: 9px;
+    background: url("../img/pagination-arrow.png") no-repeat;
+}
+#pagination .next-arrow {
+    display: inline-block;
+    width: 13px;
+    height: 9px;
+    background: url("../img/pagination-arrow.png") -13px 0 no-repeat;
+}
+/*分页器样式end*/
+/*基础表格样式 start*/
+.el-table th.is-leaf,
+.el-table th > .cell {
+    background-color: #fff!important;
+    text-align: center;
+}
+/*基础表格样式 end*/
+/*基础操作表格卡片样式 start*/
+.baseTableContent {
+    float: left;
+    width: 30%;
+    color: #666;
+    background-color: #fafafa;
+    margin-bottom: 50px;
+    min-width: 345px;
+    max-width: 450px;
+}
+.baseTableContent.width450 {
+    width: 450px;
+}
+.baseTableContent:nth-child(1),
+.baseTableContent:nth-child(2) {
+    margin-right: 5%;
+}
+.baseTableContent .el-form {
+    display: block;
+    width: 85.5%;
+    margin: 50px auto 0;
+    padding-bottom: 11%;
+}
+
+.baseTableContent .el-form-item:last-child {
+    margin-top: 23px;
+    margin-bottom: 0;
+}
+
+.baseTableContent .el-form-item__content {
+    position: relative;
+    margin: 0!important;
+    padding-left: 4%;
+    background-color: #ececec;
+    border-radius: 4px;
+    height: 50px;
+    line-height: 50px;
+    font-size: 16px;
+}
+.baseTableContent .el-form-item__content > .el-input,
+.baseTableContent .el-select {
+    width: 100%;
+    display: block;
+    top: 0;
+    left: 0;
+    position: absolute;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.baseTableContent .el-input__inner {
+    height: 50px;
+    line-height: 50px;
+    padding: 0 0 0 40%;
+    background-color: rgba(0,0,0,0);
+}
+
+.baseTableContent .el-select .el-input__inner {
+    font-size: 16px;
+}
+
+.baseTableContent .el-input.is-disabled .el-input__inner {
+    background-color: rgba(0,0,0,0);
+    color: #666;
+    border-color: #bfcbd9;
+}
+
+.baseTableContent .el-form-item:last-child .el-form-item__content {
+    padding: 0;
+}
+
+.baseTableContent .el-form .el-button {
+    width: 100%;
+    height: 50px;
+    line-height: 50px;
+    padding: 0;
+    background-color: black;
+    border-color: #000;
+    font-size: 18px;
+}
+.baseTableContent .el-form .moneyTag {
+    font-size: 14px;
+    color: #999;
+    line-height: 24px;
+}
+
+.baseTableContent .el-form > span > span {
+    color: #ff5353;
+}
+
+.baseTableContent span.drawTag > span {
+    color: #4d9ffb;
+}
+
+.baseTableContent .el-form .balanceTag,
+.baseTableContent .el-form .netWorthTag {
+    display: inline-block;
+    width: 38%;
+    padding-left: 4%;
+}
+
+.baseTableContent .el-form .availTag,
+.baseTableContent .el-form .usedTag {
+    display: inline-block;
+    width: 56%;
+}
+
+.baseTableContent .el-form .drawTag {
+    display: inline-block;
+    width: 96%;
+    padding-left: 4%;
+}
+.baseTableContent .el-form .el-form-item.beforeTag {
+    margin-bottom: 6px;
+}
+.baseTableContent .el-form .el-form-item.afterTag {
+    margin-top: 6px;
+}
+/*基础操作表格卡片样式 end*/
+
+/*baseListContent 和 baseList-content 相同样式 start*/
+.baseListContent .el-table,
+.baseListContent .el-table td,
+.baseListContent .el-table th.is-leaf,
+.baseList-content .el-table,
+.baseList-content .el-table td,
+.baseList-content .el-table th.is-leaf {
+    border: none;
+    color: #666;
+    font-weight: normal;
+    font-size: 14px;
+    text-align: center;
+}
+.baseListContent .el-table::after,
+.baseList-content .el-table::after {
+    width: 0;
+}
+.baseListContent .el-table th > .cell,
+.baseList-content .el-table th > .cell {
+    /*font-weight: bold;*/
+}
+.baseListContent .el-table__body-wrapper,
+.baseList-content .el-table__body-wrapper {
+    margin: 10px 0;
+}
+.baseListContent .el-table .cell,
+.baseList-content .el-table .cell {
+    line-height: 50px;
+    color: #999;
+}
+/*baseListContent 和 baseList-content 相同样式 end*/
+
+/*基础列表显示查询样式(可切换tab) start*/
+.baseListContent {
+    position: relative;
+}
+.baseListContent .el-tabs {
+    width: 100%;
+    margin-left: -2%;
+    position: absolute;
+    top: 0;
+    right: 0;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .12), 0 0 6px 0 rgba(0, 0, 0, .04);
+}
+.baseListContent .el-tabs__header {
+    margin: 0;
+}
+.baseListContent .el-table__header-wrapper {
+    line-height: 50px;
+}
+.baseListContent .el-tabs__active-bar {
+    display: none;
+}
+.baseListContent .el-tabs__item {
+    font-size: 16px;
+    color: #666;
+    height: 48px;
+    line-height: 48px;
+    border-radius: 4px;
+    padding: 0 30px;
+}
+.baseListContent .el-tabs__item.is-active {
+    color: #3384d2;
+}
+.baseListContent .el-tabs__content {
+    color: #666;
+}
+.baseListContent .el-tabs__nav {
+    float: right;
+}
+.baseListContent .recordSelect {
+    line-height: 50px;
+    margin: 10px 0;
+    padding-left: 1%;
+    font-size: 16px;
+    font-weight: normal;
+}
+.recordSelect .el-form-item {
+    float: left;
+    margin-right: 10px;
+}
+.baseListContent .recordSelect > span {
+    padding-right: 10px;
+}
+.baseListContent .recordSelect span:nth-child(3) {
+    padding-left: 20px;
+}
+.baseListContent .el-table th > .cell {
+    color: #666;
+}
+.baseListContent .el-table__header {
+    border-top: 1px solid #d7d7d7;
+    border-bottom: 1px solid #d7d7d7;
+}
+.baseListContent .el-tabs__item:hover {
+    color: #333;
+}
+/*基础列表显示查询样式(可切换tab) end*/
+
+/*基础列表显示信息样式 start*/
+.baseList-content {
+    margin-top: 40px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .12);
+}
+.baseList-content .el-table {
+    border-top-right-radius: 8px;
+    border-top-left-radius: 8px;
+}
+.baseList-content .el-table th > .cell {
+    background-color: #000!important;
+    color: #fff;
+    height: 50px;
+}
+/*基础列表显示信息样式 end*/
+
+/*transferHistory start*/
+.baseListContent.transH .el-tabs__item.is-active {
+    background-color: #000;
+    color: #000;
+}
+.baseListContent.transH .el-tabs {
+    margin-bottom: 50px;
+}
+.orderNum.el-input {
+    width: 200px;
+}
+.block > .el-pagination {
+    display: inline-block;
+    margin: 25px 50% 0;
+    transform: translateX(-50%);
+}
+/*transferHistory end*/

@@ -1,0 +1,23 @@
+{
+    "balance": "122122",
+    "profit_loss": "123243",
+    "pre_pay": "123124",
+    "cur_position_hand_num": "2344",
+    "all_trans_hand_num": "2344",
+    "upLeverAgent": "麻子",
+    "LeverAgentId": "178653",
+    "badgeNum": "132",
+    "tipInfo": [{
+        "info": "111111"
+    },{
+        "info": "2222222"
+    },{
+        "info": "4444444"
+    },{
+        "info": "55555555"
+    },{
+        "info": "66666666"
+    }],
+    "pieLegendData": ["黄金", "加元", "欧元", "港元", "美元", "日元"],
+    "successFlag": "0"
+}

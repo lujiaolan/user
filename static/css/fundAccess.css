@@ -1,0 +1,506 @@
+/*DEPOSITE.VUE 存款页面样式 start*/
+.depositWrap .el-tabs--border-card {
+    border: none!important;
+    box-shadow: none!important;
+}
+.depositWrap .el-tabs--border-card > .el-tabs__header {
+    width: 100%!important;
+    height: 155px!important;
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
+    background-color: #fff!important;
+    margin-bottom: 50px!important;
+    border-left: 1px solid #ececec;
+    border-right: 1px solid #ececec;
+    border-bottom-color: #ececec!important;
+    box-shadow: 0 2px 4px 0 rgba(0,0,0,.12), 0 0 6px 0 rgba(0,0,0,.04);
+}
+.depositWrap .el-tabs__nav {
+    width: 100%;
+}
+.depositWrap .el-tabs__item {
+    width: 23.65%;
+    height: 55px!important;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    color: #666;
+    font-size: 24px!important;
+    line-height: 55px!important;
+    box-sizing: content-box;
+    background: #ececec url(../img/choose.png) no-repeat 94%;
+    text-align: center;
+    /*box-shadow: 5px 5px 5px rgba(0,0,0,.12)!important;*/
+    box-shadow: 0 3px 6px 0 rgba(0,0,0,.12), 0 0 6px 0 rgba(0,0,0,.04) !important;
+    padding: 0;
+}
+.depositWrap .el-tabs__item.is-active {
+    background-color: #ececec!important;
+}
+.depositWrap .el-tabs--border-card>.el-tabs__header .el-tabs__item:first-child {
+    margin-left: 5%;
+    margin-right: 9%;
+}
+.depositWrap .el-tabs--border-card>.el-tabs__header .el-tabs__item:last-child {
+    margin-right: 5%;
+    margin-left: 9%;
+}
+.depositWrap .el-tabs--border-card>.el-tabs__header .el-tabs__item.is-active:first-child {
+    border-left-color: #ececec!important;
+}
+.depositWrap .el-tabs--border-card>.el-tabs__header .el-tabs__item.is-active {
+    background: #ececec url(../img/choosed.png) no-repeat 94%;
+    border-left-color: #ececec!important;
+    border-right-color: #ececec!important;
+}
+.depositWrap .el-tabs--border-card>.el-tabs__content {
+    padding: 0!important;
+}
+
+.pay-type {
+    width: 27%;
+    float: left;
+}
+
+.pay-bank {
+    width: 69.6%;
+    float: right;
+}
+
+.pay-number {
+    width: 100%;
+    float: left;
+    margin-top: 40px;
+    margin-bottom: 40px;
+}
+
+.pay-content {
+    background-color: #fafafa;
+    box-shadow: 0 2px 4px 0 rgba(0,0,0,.12), 0 0 6px 0 rgba(0,0,0,.04);
+}
+
+.pay-choose {
+    display: block;
+    float: left;
+    width: 20px;
+    height: 20px;
+    margin-top: 15px;
+    background: url('../img/choose.png')no-repeat;
+}
+
+.pay-content .el-icon-arrow-right:before {
+    content: '';
+}
+.pay-content .el-collapse {
+    width: 85%;
+    margin: auto;
+    border-color: #fff;
+}
+
+.pay-content .el-collapse-item__header {
+    background-color: #ececec;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    height: 50px;
+    line-height: 50px;
+    font-size: 18px;
+    padding: 0 5% 0 6%;
+    position: relative;
+}
+
+.pay-content .el-collapse-item__header > div {
+    width: 89%;
+    position: absolute;
+    top: 0;
+    text-align: right;
+}
+
+.pay-content .el-collapse-item.is-active .el-collapse-item__header .pay-choose{
+    background: url('../img/choosed.png')no-repeat;
+}
+.pay-content .el-collapse-item__content {
+    padding: 10px 6% 10px 6%;
+}
+
+.pay-content .el-collapse-item__content ul li {
+    list-style: none;
+    height: 50px;
+    line-height: 50px;
+    font-size: 18px;
+    text-align: right;
+}
+
+.pay-content .el-collapse-item__content ul li.active i {
+    background: url("../img/choosed.png");
+}
+
+.blk50 {
+    height: 50px;
+    width: 100%;
+}
+.pay-type .pay-content {
+    padding: 7.5% 0;
+}
+.pay-type .pay-content .el-radio-group {
+    display: block;
+}
+.pay-type .pay-content .el-radio-group .el-radio {
+    display: block;
+    width: 100%;
+    height: 50px;
+    line-height: 50px;
+}
+.pay-type .pay-content .el-radio .el-radio__label {
+    font-size: 18px;
+    float: right;
+}
+.pay-type .pay-content .el-radio+.el-radio {
+    margin: 0;
+}
+.pay-type .pay-content .el-radio__inner {
+    border: 2px solid #999;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    cursor: pointer;
+    box-sizing: border-box;
+}
+.pay-type .pay-content .el-radio__input.is-checked .el-radio__inner {
+    border-color: #bf050b;
+    background: #fff;
+}
+
+.pay-type .pay-content .el-radio__inner::after {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: #bf050b;
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%) scale(0);
+    transition: transform .01s cubic-bezier(.71,-.46,.88,.6);
+}
+.pay-bank .pay-content {
+    padding: 3% 4.8% 0;
+}
+.pay-bank .pay-content .el-radio-group {
+    width: 100%;
+}
+.pay-bank .pay-content .el-radio-button {
+    width: 26.88%;
+    border-radius: 8px;
+    padding: 10.75% 0 0 0;
+    border: none;
+    margin-right: 9.67%;
+    margin-bottom: 30px;
+}
+.pay-bank .pay-content .el-radio-button:nth-child(3n) {
+    margin-right: 0;
+}
+.pay-bank .pay-content .el-radio-button .el-radio-button__inner {
+    display: none;
+}
+
+.pay-bank .pay-content .bank-img1 {
+    background: url("../img/gongshang.png")0 -100%;
+    background-size: 100%;
+}
+.pay-bank .pay-content .el-radio-button.bank-img1.is-active {
+    background: url("../img/gongshang.png") no-repeat;
+    background-size: 100%;
+}
+.pay-bank .pay-content .bank-img2 {
+    background: url("../img/nongye.png")0 -100%;
+    background-size: 100%;
+}
+.pay-bank .pay-content .el-radio-button.bank-img2.is-active {
+    background: url("../img/nongye.png") no-repeat;
+    background-size: 100%;
+}
+.pay-bank .pay-content .bank-img3 {
+    background: url("../img/zhongguo.png")0 -100%;
+    background-size: 100%;
+}
+.pay-bank .pay-content .el-radio-button.bank-img3.is-active {
+    background: url("../img/zhongguo.png") no-repeat;
+    background-size: 100%;
+}
+.pay-bank .pay-content .bank-img4 {
+    background: url("../img/guangda.png")0 -100%;
+    background-size: 100%;
+}
+.pay-bank .pay-content .el-radio-button.bank-img4.is-active {
+    background: url("../img/guangda.png") no-repeat;
+    background-size: 100%;
+}
+.pay-bank .pay-content .bank-img5 {
+    background: url("../img/zhaoshang.png")0 -100%;
+    background-size: 100%;
+}
+.pay-bank .pay-content .el-radio-button.bank-img5.is-active {
+    background: url("../img/zhaoshang.png") no-repeat;
+    background-size: 100%;
+}
+.pay-bank .pay-content .bank-img6 {
+    background: url("../img/minsheng.png")0 -100%;
+    background-size: 100%;
+}
+.pay-bank .pay-content .el-radio-button.bank-img6.is-active {
+    background: url("../img/minsheng.png") no-repeat;
+    background-size: 100%;
+}
+.pay-bank .pay-content .bank-img7 {
+    background: url("../img/jiaotong.png")0 -100%;
+    background-size: 100%;
+}
+.pay-bank .pay-content .el-radio-button.bank-img7.is-active {
+    background: url("../img/jiaotong.png") no-repeat;
+    background-size: 100%;
+}
+.pay-bank .pay-content .bank-img8 {
+    background: url("../img/pingan.png")0 -100%;
+    background-size: 100%;
+}
+.pay-bank .pay-content .el-radio-button.bank-img8.is-active {
+    background: url("../img/pingan.png") no-repeat;
+    background-size: 100%;
+}
+.pay-bank .pay-content .bank-img9 {
+    background: url("../img/guangfa.png")0 -100%;
+    background-size: 100%;
+}
+.pay-bank .pay-content .el-radio-button.bank-img9.is-active {
+    background: url("../img/guangfa.png") no-repeat;
+    background-size: 100%;
+}
+.pay-bank .pay-content .bank-img10 {
+    background: url("../img/zhongxin.png")0 -100%;
+    background-size: 100%;
+}
+.pay-bank .pay-content .el-radio-button.bank-img10.is-active {
+    background: url("../img/zhongxin.png") no-repeat;
+    background-size: 100%;
+}
+.pay-bank .pay-content .bank-img11 {
+    background: url("../img/xingye.png")0 -100%;
+    background-size: 100%;
+}
+.pay-bank .pay-content .el-radio-button.bank-img11.is-active {
+    background: url("../img/xingye.png") no-repeat;
+    background-size: 100%;
+}
+.pay-bank .pay-content .bank-img12 {
+    background: url("../img/jianshe.png")0 -100%;
+    background-size: 100%;
+}
+.pay-bank .pay-content .el-radio-button.bank-img12.is-active {
+    background: url("../img/jianshe.png") no-repeat;
+    background-size: 100%;
+}
+
+.pay-number .pay-content {
+    padding: 2.7% 3.38%;
+    display: inline-block;
+}
+
+.pay-number .pay-content .content-left {
+    float: left;
+    width: 45%;
+    margin-left: 5%;
+}
+
+.pay-number .pay-content .el-button--primary {
+    width: 100%;
+    height: 50px;
+    font-size: 20px;
+    background-color: #000;
+    border-color: #000;
+}
+
+.pay-number .pay-content .el-form-item__content {
+    width: 60%;
+}
+
+.pay-number .pay-content .el-form-item {
+    margin-bottom: 30px;
+}
+.pay-number .pay-content .el-form-item:last-child {
+    margin-bottom: 0;
+}
+.pay-number .pay-content .content-right {
+    width: 50%;
+    float: left;
+    color: #666;
+}
+.pay-number .pay-content .content-right i {
+    display: inline-block;
+    width: 30px;
+    height: 24px;
+    background: url("../img/notice-red.png") no-repeat;
+}
+
+.pay-number .pay-content .content-right span {
+    font-weight: bolder;
+    padding-left: 2%;
+    font-size: 18px;
+}
+
+.pay-number .pay-content .content-right p {
+    padding-left: 6%;
+    line-height: 26px;
+}
+.pay-number .el-input.is-disabled .el-input__inner {
+    color: #666;
+}
+.pay-number .el-input__inner {
+    height: 50px;
+    line-height: 50px;
+    font-size: 18px;
+}
+.pay-number .el-form-item__label {
+    font-size: 18px;
+    padding-top: 17px;
+}
+/*DEPOSITE.VUE 存款页面样式 end*/
+
+/*drawMoney.vue 取款页面样式 start*/
+.drawWrap .drawContent {
+    padding-bottom: 3%;
+}
+.drawContent .succStatus {
+    padding: 11% 0;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 8px;
+    color: #666;
+    border: none;
+}
+
+.drawContent .succStatus,
+.drawContent .el-radio-group {
+    display: block;
+    width: 85.5%;
+    margin: 18px auto 0;
+}
+
+.drawContent .el-radio-button,
+.drawContent .el-radio-button__inner {
+    width: 100%;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 8px;
+    color: #666;
+}
+
+.drawContent .el-radio-button__inner {
+    padding: 18.9% 0;
+    border-radius: 8px;
+    margin-top: 40px;
+    background-color: #ececec;
+    border-color: #ececec;
+}
+
+.drawContent .el-radio-button__inner .el-button {
+    float:right;
+    margin-left: 12px;
+    margin-bottom: 10px;
+}
+
+.drawContent .el-radio-button:first-child .el-radio-button__inner,
+.drawContent .el-radio-button:last-child .el-radio-button__inner {
+    border-radius: 8px;
+}
+.drawContent .el-radio-button:first-child .el-radio-button__inner {
+    border-left: 1px solid #ececec;
+    margin-top: 0;
+}
+
+.drawContent:nth-child(2) .el-radio-button .el-radio-button__inner {
+    padding: 0 4%;
+}
+
+.drawContent .el-radio-button__inner .card-name{
+    text-align: left;
+    font-size: 18px;
+    font-weight: bolder;
+    padding: 3% 0 3% 0;
+}
+
+.drawContent .el-radio-button__inner .card-number {
+    font-size: 18px;
+    text-align: left;
+}
+
+.drawContent .el-radio-button__inner .card-owner {
+    font-size: 16px;
+    font-weight: bold;
+    text-align: left;
+    padding: 4.35% 0;
+}
+
+.drawContent .el-radio-button__inner .card-bank {
+    font-size: 14px;
+    font-weight: bold;
+    text-align: right;
+    padding: 0 0 4.35% 0;
+}
+.el-radio-button {
+    margin-top: 10px;
+    margin-bottom: -28px;
+}
+.drawContent:nth-child(1) .el-radio-button:last-child .el-radio-button__inner {
+    padding: 0;
+}
+
+.drawContent .balanceMoney {
+    display: inline-block;
+    margin-left: 19%;
+    font-weight: bold;
+}
+
+
+/*drawMoney.vue 取款页面样式 end*/
+
+.addBankConfig .el-dialog--small{
+    width: 60%;
+}
+.addBankConfig .el-upload-dragger{
+    width: 275px;
+    margin-top: 12px;
+}
+.bank-img{
+    margin-left: 90px;
+}
+.tipsAddBankCard{
+    margin-bottom: 20px;
+    background-color: orange;
+}
+.succStatus{
+    padding: 3% 0;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 8px;
+    color: #666;
+    border: none;
+    width: 19%;
+    margin:18px;
+}
+.el-radio-group .addplus{
+    margin-top: 10px;
+}
+.card-name .oksucces{
+    background-color: darkseagreen;
+    float: right;
+}
+.card-name .Notsuccess{
+    background-color: orange;
+    float: right;
+}
+.card-name .nosuccess{
+    background-color: red;
+    float: right;
+}
+/*withdrawrecord.vue 存取款记录 start*/
+
+/*withdrawrecord.vue 存取款记录 end*/

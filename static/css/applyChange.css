@@ -1,0 +1,80 @@
+.modify .noticeTag,
+.modifyLever .noticeTag {
+    padding-left: 4%;
+}
+
+.modify .noticeTag > i,
+.modifyLever .noticeTag > i {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    background: url("../img/point.png") no-repeat top left;
+    background-size: 100%;
+}
+
+.modify .noticeTag > p,
+.modifyLever .noticeTag > p {
+    display: inline-block;
+    width: 87%;
+    padding-left: 2%;
+}
+
+/*ModifyPwd页面*/
+.modifyPwd .el-tabs__content {
+    overflow: visible;
+}
+.modifyPwd .el-tabs__header {
+    margin: 0;
+    border-bottom: none;
+}
+
+.modifyPwd .el-tabs__nav {
+    width: 80%;
+    margin-left: 10%;
+}
+.modifyPwd .el-tabs__item {
+    display: block;
+    padding: 0 6%;
+    background-color: #ebebeb;
+    height: 50px;
+    line-height: 50px;
+    font-size: 18px;
+    box-shadow: 0 2px 4px 0 rgba(0,0,0,.12);
+    border-radius: 4px;
+    margin: 51px 0;
+}
+
+.modifyPwd .el-tabs__active-bar {
+    display: none;
+}
+
+.modifyPwd .el-tabs__item.is-active {
+    background: url("../img/choosed.png") no-repeat 95%;
+}
+
+.modifyPwd .el-tab-pane {
+    width: 100%;
+    position: absolute;
+    left: 118%;
+    top: -404px;
+}
+.modifyPwd .el-tab-pane > .drawContent {
+    width: 100%;
+}
+
+.modifyPwd .el-tab-pane > .drawContent .el-form {
+    margin-top: 40px;
+    padding-bottom: 0;
+}
+.modifyPwd .el-tab-pane > .drawContent .el-form-item {
+    margin-bottom: 40px;
+}
+
+/*ModifyLever*/
+.modifyLever .baseTableContent .lever.el-form-item:last-child .el-form-item__content {
+    padding-left: 4%;
+}
+
+.modifyLever > .baseTableContent:last-child .el-form-item {
+    margin-bottom: 22px;
+}

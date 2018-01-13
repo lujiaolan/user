@@ -1,0 +1,41 @@
+.info-title {
+    overflow: hidden;
+}
+.position-total {
+    text-align: right;
+    padding: 20px 0;
+}
+.position-total > span {
+    font-size: 18px;
+    padding: 0 40px;
+    color: #666;
+}
+.position-total > span:nth-child(1) {
+    font-size: 16px;
+    font-weight: bold;
+}
+/*历史记录页面*/
+.position .baseListContent .el-tabs,
+.history .baseListContent .el-tabs {
+    margin-top: 40px;
+}
+.position .baseListContent .el-tabs__header,
+.history .baseListContent .el-tabs__header {
+    background-color: #000;
+    border: none;
+    border-top-right-radius: 8px;
+    border-top-left-radius: 8px;
+}
+.history .baseListContent .el-table .cell,
+.history .baseListContent.el-table th>div {
+    padding: 0;
+}
+.position .baseListContent .el-tabs__nav,
+.history .baseListContent .el-tabs__nav {
+    float: left;
+}
+
+.orderSelect.el-input {
+    width: 150px;
+}
+
