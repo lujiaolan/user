@@ -1,19 +1,10 @@
-html body{
-    overflow-x: hidden;
-    margin: 0;
-    padding: 0;
-    font-family: -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',
-    Helvetica,'PingFang SC','Hiragino Sans GB','Microsoft YaHei',SimSun-ExtB,sans-serif;
-    font-size: 14px;
-    color: #c3c3c3;
-}
 .wrap,
 .lo-container {
     margin: auto;
     overflow: hidden;
 }
 .wrap {
-    width:1200px;
+    /*width:1200px;*/
 }
 .lo-container {
     width: 480px;

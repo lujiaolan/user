@@ -37,8 +37,8 @@ export default {
                         self.lineData.outOfGold.push(item.amount.outOfGold);
                     })
                 }
-                console.log('self.lineXAxisData',self.lineXAxisData);
-                console.log('self.lineData',self.lineData);
+                // console.log('self.lineXAxisData',self.lineXAxisData);
+                // console.log('self.lineData',self.lineData);
             }).catch(function () {
             })
         },

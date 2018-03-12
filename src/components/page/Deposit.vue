@@ -1,6 +1,6 @@
 <template>
     <div class="depositWrap">
-        <div class="infoList-title">选择支付的方式</div>
+        <div>选择支付的方式</div>
         <el-tabs type="border-card">
             <el-tab-pane label="在线入金">
                 <deposit-online></deposit-online>

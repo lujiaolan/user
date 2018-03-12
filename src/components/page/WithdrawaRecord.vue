@@ -1,48 +1,45 @@
 <template>
-    <div class="infoList-title baseListContent">
-        <span>记录查询</span>
+    <div class="baseListContent">
         <el-tabs v-model="dawActiveName" @tab-click="drawHandleClick">
             <el-tab-pane label="全部" name="alldraw">
                 <div class="recordSelect">
-                    <el-form :model="widthdrawSearch" label-width="100px" :rules="widthdraw_rules" ref="alldraw">
+                    <el-form :model="widthdrawSearch" :rules="widthdraw_rules" ref="alldraw">
                         <el-row>
-                            <el-col :span="4">
-                                <el-form-item label="类型" prop="type">
+                            <el-form-item>
+                                <span>类型</span>
+                            </el-form-item>
+                            <el-form-item prop="type">
                                     <el-select v-model="widthdrawSearch.type">
                                         <el-option
                                             v-for="item in completeOptions"
                                             :key="item.key"
                                             :value="item.value"
-                                            :label="item.label"
-                                        >
+                                            :label="item.label">
                                         </el-option>
                                     </el-select>
                                 </el-form-item>
-                            </el-col>
-                            <el-col :span="4" >
-                                <el-form-item prop="orderNum" label="订单编号">
+                            <el-form-item class="labelItem">
+                                <span>订单编号</span>
+                            </el-form-item>
+                            <el-form-item prop="orderNum">
                                     <el-input v-model="widthdrawSearch.orderNum"></el-input>
                                 </el-form-item>
-                            </el-col>
-                            <el-col :span="3" >
-                                <el-form-item prop="startTime">
+                            <el-form-item class="labelItem">
+                                <span>自定义</span>
+                            </el-form-item>
+                            <el-form-item prop="startTime">
                                     <el-date-picker
-                                        v-model="widthdrawSearch.startTime" @key.native.enter="widthdrawRecord('alldraw')">
+                                        v-model="widthdrawSearch.startTime" :editable="editableDate" @key.native.enter="widthdrawRecord('alldraw')">
                                     </el-date-picker>
                                 </el-form-item>
-                            </el-col>
-                            <el-col :span="3">
-                                <el-form-item prop="endTime">
+                            <el-form-item prop="endTime">
                                     <el-date-picker
-                                        v-model="widthdrawSearch.endTime" @key.native.enter="widthdrawRecord('alldraw')">
+                                        v-model="widthdrawSearch.endTime" :editable="editableDate" @key.native.enter="widthdrawRecord('alldraw')">
                                     </el-date-picker>
                                 </el-form-item>
-                            </el-col>
-                            <el-col :span='4'>
-                                <el-form-item>
-                                    <el-button @click="widthdrawRecord('alldraw')">查询</el-button>
+                            <el-form-item>
+                                    <el-button class="selectBtn" @click="widthdrawRecord('alldraw')">查询</el-button>
                                 </el-form-item>
-                            </el-col>
                         </el-row>
                     </el-form>
                 </div>
@@ -50,15 +47,17 @@
                     <el-table-column
                         prop="_id"
                         label="订单编号"
-                        width="210"
-                    ></el-table-column>
+                        width="210">
+                    </el-table-column>
                     <el-table-column
                         prop="type"
                         label="类型"
-                        width="80">
+                        width="100">
                         <template scope="scope">
                             <span v-if="scope.row.type==1">入金</span>
                             <span v-if="scope.row.type==2">出金</span>
+                            <span v-if="scope.row.type==21">系统入金</span>
+                            <span v-if="scope.row.type==22">系统出金</span>
                         </template>
                     </el-table-column>
                     <el-table-column
@@ -74,12 +73,12 @@
                     <el-table-column
                         prop="createTime"
                         label="申请时间"
-                        width="180">
+                        width="190">
                     </el-table-column>
                     <el-table-column
                         prop="handleTime"
                         label="完成时间"
-                        width="180">
+                        width="190">
                     </el-table-column>
                     <el-table-column
                         prop="tradeStatus"
@@ -92,15 +91,22 @@
                             <span v-if="scope.row.tradeStatus==1&&scope.row.type==2">出金成功</span>
                             <span v-if="scope.row.tradeStatus==-100&&scope.row.type==2">未审核</span>
                             <span v-if="scope.row.tradeStatus==-1&&scope.row.type==2">出金失败</span>
+                            <span v-if="scope.row.tradeStatus==1&&scope.row.type==21">操作成功</span>
+                            <span v-if="scope.row.tradeStatus==1&&scope.row.type==22">操作成功</span>
+                            <span v-if="scope.row.tradeStatus==-1&&scope.row.type==21">操作失败</span>
+                            <span v-if="scope.row.tradeStatus==-1&&scope.row.type==22">操作失败</span>
                         </template>
                     </el-table-column>
                     <el-table-column
-                        prop="comment"
                         label="备注">
-                    </el-table-column>
-                    <el-table-column>
                         <template scope="scope">
-                            <el-button @click="detailRecord(scope.row)" type="success">详情</el-button>
+                            <span v-if="scope.row.type==21||scope.row.type==22"></span>
+                            <span v-if="scope.row.type==1||scope.row.type==2">{{ scope.row.comment }}</span>
+                        </template>
+                    </el-table-column>
+                    <el-table-column label="操作">
+                        <template scope="scope">
+                            <el-button @click="detailRecord(scope.row)">详情</el-button>
                         </template>
                     </el-table-column>
                 </el-table>
@@ -113,7 +119,7 @@
                     layout="total,sizes,prev,pager,next,jumper"
                     :total="widthdrawSearchTotal"></el-pagination>
             </el-tab-pane>
-            <el-dialog :title="detailTitle" :visible.sync="detailDrawRecordShow" size="tiny" :before-close="closeDrawRecord">
+            <el-dialog :title="detailTitle" :visible.sync="detailDrawRecordShow" size="tiny" class="moneyDetail" :before-close="closeDrawRecord">
                 <el-form :model="detailDrawRecordData" label-width="120px">
                     <el-form-item label="订单编号">
                         <span>{{detailDrawRecordData._id}}</span>
@@ -121,6 +127,8 @@
                     <el-form-item label="类型">
                         <span v-if="detailDrawRecordData.type==1">入金</span>
                         <span v-if="detailDrawRecordData.type==2">出金</span>
+                        <span v-if="detailDrawRecordData.type==21">系统入金</span>
+                        <span v-if="detailDrawRecordData.type==22">系统出金</span>
                     </el-form-item>
                     <el-form-item label="出金方式" v-if="detailTitle=='入金详情'">
                         <span>{{detailDrawRecordData.detailTitle}}</span>
@@ -162,53 +170,58 @@
                         <span v-if="detailDrawRecordData.tradeStatus==-1&&detailDrawRecordData.type==1">入金失败</span>
                         <span v-if="detailDrawRecordData.tradeStatus==-100&&detailDrawRecordData.type==1">未支付</span>
                         <span v-if="detailDrawRecordData.tradeStatus==1&&detailDrawRecordData.type==1">入金成功</span>
+                        <span v-if="detailDrawRecordData.tradeStatus==1&&detailDrawRecordData.type==21">操作成功</span>
+                        <span v-if="detailDrawRecordData.tradeStatus==1&&detailDrawRecordData.type==22">操作成功</span>
+                        <span v-if="detailDrawRecordData.tradeStatus==-1&&detailDrawRecordData.type==21">操作失败</span>
+                        <span v-if="detailDrawRecordData.tradeStatus==-1&&detailDrawRecordData.type==22">操作失败</span>
                     </el-form-item>
                     <el-form-item label="备注">
-                        <span>{{detailDrawRecordData.comment}}</span>
+                        <template scope="scope">
+                            <span v-if="detailDrawRecordData.type==21||detailDrawRecordData.type==22"></span>
+                            <span v-if="detailDrawRecordData.type==1||detailDrawRecordData.type==2">{{ detailDrawRecordData.comment }}</span>
+                        </template>
                     </el-form-item>
                 </el-form>
             </el-dialog>
             <el-tab-pane label="已完成" name="Complete">
                 <div class="recordSelect">
-                    <el-form :model="widthdrawSearch" label-width="100px" :rules="Complete_rules" ref="Complete">
+                    <el-form :model="widthdrawSearch" :rules="Complete_rules" ref="Complete">
                         <el-row>
-                            <el-col :span="4">
-                                <el-form-item label="类型">
+                            <el-form-item>
+                                <span>类型</span>
+                            </el-form-item>
+                            <el-form-item>
                                     <el-select v-model="widthdrawSearch.type" >
                                         <el-option
                                             v-for="item in completeOptions"
                                             :key="item.key"
                                             :value="item.value"
-                                            :label="item.label"
-                                        >
+                                            :label="item.label">
                                         </el-option>
                                     </el-select>
                                 </el-form-item>
-                            </el-col>
-                            <el-col :span="4" >
-                                <el-form-item prop="orderNum" label="订单编号">
+                            <el-form-item class="labelItem">
+                                <span>订单编号</span>
+                            </el-form-item>
+                            <el-form-item prop="orderNum">
                                     <el-input v-model="widthdrawSearch.orderNum"></el-input>
                                 </el-form-item>
-                            </el-col>
-                            <el-col :span="3" >
-                                <el-form-item prop="startTime">
+                            <el-form-item class="labelItem">
+                                <span>自定义</span>
+                            </el-form-item>
+                            <el-form-item prop="startTime">
                                     <el-date-picker
-                                        v-model="widthdrawSearch.startTime" @key.enter.native="widthdrawRecord('Complete')">
+                                        v-model="widthdrawSearch.startTime":editable="editableDate"  @key.enter.native="widthdrawRecord('Complete')">
                                     </el-date-picker>
                                 </el-form-item>
-                            </el-col>
-                            <el-col :span="3">
-                                <el-form-item prop="endTime">
+                            <el-form-item prop="endTime">
                                     <el-date-picker
-                                        v-model="widthdrawSearch.endTime" @key.enter.native="widthdrawRecord('Complete')">
+                                        v-model="widthdrawSearch.endTime" :editable="editableDate" @key.enter.native="widthdrawRecord('Complete')">
                                     </el-date-picker>
                                 </el-form-item>
-                            </el-col>
-                            <el-col :span='4'>
-                                <el-form-item>
-                                    <el-button @click="widthdrawRecord('Complete')">查询</el-button>
+                            <el-form-item>
+                                    <el-button class="selectBtn" @click="widthdrawRecord('Complete')">查询</el-button>
                                 </el-form-item>
-                            </el-col>
                         </el-row>
                     </el-form>
                 </div>
@@ -216,15 +229,17 @@
                     <el-table-column
                         prop="_id"
                         label="订单编号"
-                        width="210"
-                    ></el-table-column>
+                        width="210">
+                    </el-table-column>
                     <el-table-column
                         prop="type"
                         label="类型"
-                        width="80">
+                        width="100">
                         <template scope="scope">
                             <span v-if="scope.row.type==1">入金</span>
                             <span v-if="scope.row.type==2">出金</span>
+                            <span v-if="scope.row.type==21">系统入金</span>
+                            <span v-if="scope.row.type==22">系统出金</span>
                         </template>
                     </el-table-column>
                     <el-table-column
@@ -240,12 +255,12 @@
                     <el-table-column
                         prop="createTime"
                         label="申请时间"
-                        width="180">
+                        width="190">
                     </el-table-column>
                     <el-table-column
                         prop="handleTime"
                         label="完成时间"
-                        width="180">
+                        width="190">
                     </el-table-column>
                     <el-table-column
                         prop="tradeStatus"
@@ -258,15 +273,22 @@
                             <span v-if="scope.row.tradeStatus==1&&scope.row.type==2">出金成功</span>
                             <span v-if="scope.row.tradeStatus==-100&&scope.row.type==2">未审核</span>
                             <span v-if="scope.row.tradeStatus==-1&&scope.row.type==2">出金失败</span>
+                            <span v-if="scope.row.tradeStatus==1&&scope.row.type==21">操作成功</span>
+                            <span v-if="scope.row.tradeStatus==1&&scope.row.type==22">操作成功</span>
+                            <span v-if="scope.row.tradeStatus==-1&&scope.row.type==21">操作失败</span>
+                            <span v-if="scope.row.tradeStatus==-1&&scope.row.type==22">操作失败</span>
                         </template>
                     </el-table-column>
                     <el-table-column
-                        prop="comment"
                         label="备注">
-                    </el-table-column>
-                    <el-table-column>
                         <template scope="scope">
-                            <el-button @click="detailRecord(scope.row)" type="success">详情</el-button>
+                            <span v-if="scope.row.type==21||scope.row.type==22"></span>
+                            <span v-if="scope.row.type==1||scope.row.type==2">{{ scope.row.comment }}</span>
+                        </template>
+                    </el-table-column>
+                    <el-table-column label="操作">
+                        <template scope="scope">
+                            <el-button @click="detailRecord(scope.row)">详情</el-button>
                         </template>
                     </el-table-column>
                 </el-table>
@@ -281,45 +303,43 @@
             </el-tab-pane>
             <el-tab-pane label="失败" name="dawLossR">
                 <div class="recordSelect">
-                    <el-form :model="widthdrawSearch" label-width="100px" :rules="dawLossR_rules" ref="dawLossR">
+                    <el-form :model="widthdrawSearch" :rules="dawLossR_rules" ref="dawLossR">
                         <el-row>
-                            <el-col :span="4">
-                                <el-form-item label="类型">
+                            <el-form-item>
+                                <span>类型</span>
+                            </el-form-item>
+                            <el-form-item>
                                     <el-select v-model="widthdrawSearch.type" >
                                         <el-option
                                             v-for="item in completeOptions"
                                             :key="item.key"
                                             :value="item.value"
-                                            :label="item.label"
-                                        >
+                                            :label="item.label">
                                         </el-option>
                                     </el-select>
                                 </el-form-item>
-                            </el-col>
-                            <el-col :span="4" >
-                                <el-form-item prop="orderNum" label="订单编号">
+                            <el-form-item class="labelItem">
+                                <span>订单编号</span>
+                            </el-form-item>
+                            <el-form-item prop="orderNum">
                                     <el-input v-model="widthdrawSearch.orderNum"></el-input>
                                 </el-form-item>
-                            </el-col>
-                            <el-col :span="3" >
-                                <el-form-item prop="startTime">
+                            <el-form-item class="labelItem">
+                                <span>自定义</span>
+                            </el-form-item>
+                            <el-form-item prop="startTime">
                                     <el-date-picker
-                                        v-model="widthdrawSearch.startTime" @key.enter.native="widthdrawRecord('dawLossR')">
+                                        v-model="widthdrawSearch.startTime" :editable="editableDate" @key.enter.native="widthdrawRecord('dawLossR')">
                                     </el-date-picker>
                                 </el-form-item>
-                            </el-col>
-                            <el-col :span="3">
-                                <el-form-item prop="endTime">
+                            <el-form-item prop="endTime">
                                     <el-date-picker
-                                        v-model="widthdrawSearch.endTime" @key.enter.native="widthdrawRecord('dawLossR')">
+                                        v-model="widthdrawSearch.endTime" :editable="editableDate" @key.enter.native="widthdrawRecord('dawLossR')">
                                     </el-date-picker>
                                 </el-form-item>
-                            </el-col>
-                            <el-col :span='4'>
-                                <el-form-item>
-                                    <el-button @click="widthdrawRecord('dawLossR')">查询</el-button>
+                            <el-form-item>
+                                    <el-button class="selectBtn" @click="widthdrawRecord('dawLossR')">查询</el-button>
                                 </el-form-item>
-                            </el-col>
                         </el-row>
                     </el-form>
                 </div>
@@ -327,15 +347,17 @@
                     <el-table-column
                         prop="_id"
                         label="订单编号"
-                        width="210"
-                    ></el-table-column>
+                        width="210">
+                    </el-table-column>
                     <el-table-column
                         prop="type"
                         label="类型"
-                        width="80">
+                        width="100">
                         <template scope="scope">
                             <span v-if="scope.row.type==1">入金</span>
                             <span v-if="scope.row.type==2">出金</span>
+                            <span v-if="scope.row.type==21">系统入金</span>
+                            <span v-if="scope.row.type==22">系统出金</span>
                         </template>
                     </el-table-column>
                     <el-table-column
@@ -351,12 +373,12 @@
                     <el-table-column
                         prop="createTime"
                         label="申请时间"
-                        width="180">
+                        width="190">
                     </el-table-column>
                     <el-table-column
                         prop="handleTime"
                         label="完成时间"
-                        width="180">
+                        width="190">
                     </el-table-column>
                     <el-table-column
                         prop="tradeStatus"
@@ -369,15 +391,22 @@
                             <span v-if="scope.row.tradeStatus==1&&scope.row.type==2">出金成功</span>
                             <span v-if="scope.row.tradeStatus==-100&&scope.row.type==2">未审核</span>
                             <span v-if="scope.row.tradeStatus==-1&&scope.row.type==2">出金失败</span>
+                            <span v-if="scope.row.tradeStatus==1&&scope.row.type==21">操作成功</span>
+                            <span v-if="scope.row.tradeStatus==1&&scope.row.type==22">操作成功</span>
+                            <span v-if="scope.row.tradeStatus==-1&&scope.row.type==21">操作失败</span>
+                            <span v-if="scope.row.tradeStatus==-1&&scope.row.type==22">操作失败</span>
                         </template>
                     </el-table-column>
                     <el-table-column
-                        prop="comment"
                         label="备注">
+                        <template scope="scope">
+                            <span v-if="scope.row.type==21||scope.row.type==22"></span>
+                            <span v-if="scope.row.type==1||scope.row.type==2">{{ scope.row.comment }}</span>
+                        </template>
                     </el-table-column>
                     <el-table-column>
                         <template scope="scope">
-                            <el-button @click="detailRecord(scope.row)" type="success">详情</el-button>
+                            <el-button @click="detailRecord(scope.row)">详情</el-button>
                         </template>
                     </el-table-column>
                 </el-table>
@@ -392,45 +421,43 @@
             </el-tab-pane>
             <el-tab-pane label="待处理" name="dawPendingR">
                 <div class="recordSelect">
-                    <el-form :model="widthdrawSearch" label-width="100px" :rules="dawPendingR_rules" ref="dawPendingR">
+                    <el-form :model="widthdrawSearch" :rules="dawPendingR_rules" ref="dawPendingR">
                         <el-row>
-                            <el-col :span="4">
-                                <el-form-item label="类型">
+                            <el-form-item>
+                                <span>类型</span>
+                            </el-form-item>
+                            <el-form-item>
                                     <el-select v-model="widthdrawSearch.type" >
                                         <el-option
                                             v-for="item in completeOptions"
                                             :key="item.key"
                                             :value="item.value"
-                                            :label="item.label"
-                                        >
+                                            :label="item.label">
                                         </el-option>
                                     </el-select>
                                 </el-form-item>
-                            </el-col>
-                            <el-col :span="4" >
-                                <el-form-item prop="orderNum" label="订单编号">
+                            <el-form-item class="labelItem">
+                                <span>订单编号</span>
+                            </el-form-item>
+                            <el-form-item prop="orderNum">
                                     <el-input v-model="widthdrawSearch.orderNum"></el-input>
                                 </el-form-item>
-                            </el-col>
-                            <el-col :span="3" >
-                                <el-form-item prop="startTime">
+                            <el-form-item class="labelItem">
+                                <span>自定义</span>
+                            </el-form-item>
+                            <el-form-item prop="startTime">
                                     <el-date-picker
-                                        v-model="widthdrawSearch.startTime" @key.enter.native="widthdrawRecord('dawPendingR')">
+                                        v-model="widthdrawSearch.startTime"  :editable="editableDate" @key.enter.native="widthdrawRecord('dawPendingR')">
                                     </el-date-picker>
                                 </el-form-item>
-                            </el-col>
-                            <el-col :span="3">
-                                <el-form-item prop="endTime">
+                            <el-form-item prop="endTime">
                                     <el-date-picker
-                                        v-model="widthdrawSearch.endTime" @key.enter.native="widthdrawRecord('dawPendingR')">
+                                        v-model="widthdrawSearch.endTime"  :editable="editableDate" @key.enter.native="widthdrawRecord('dawPendingR')">
                                     </el-date-picker>
                                 </el-form-item>
-                            </el-col>
-                            <el-col :span='4'>
-                                <el-form-item>
-                                    <el-button @click="widthdrawRecord('dawPendingR')">查询</el-button>
+                            <el-form-item>
+                                    <el-button class="selectBtn" @click="widthdrawRecord('dawPendingR')">查询</el-button>
                                 </el-form-item>
-                            </el-col>
                         </el-row>
                     </el-form>
                 </div>
@@ -438,15 +465,17 @@
                     <el-table-column
                         prop="_id"
                         label="订单编号"
-                        width="210"
-                    ></el-table-column>
+                        width="210">
+                    </el-table-column>
                     <el-table-column
                         prop="type"
                         label="类型"
-                        width="80">
+                        width="100">
                         <template scope="scope">
                             <span v-if="scope.row.type==1">入金</span>
                             <span v-if="scope.row.type==2">出金</span>
+                            <span v-if="scope.row.type==21">系统入金</span>
+                            <span v-if="scope.row.type==22">系统出金</span>
                         </template>
                     </el-table-column>
                     <el-table-column
@@ -462,12 +491,12 @@
                     <el-table-column
                         prop="createTime"
                         label="申请时间"
-                        width="180">
+                        width="190">
                     </el-table-column>
                     <el-table-column
                         prop="handleTime"
                         label="完成时间"
-                        width="180">
+                        width="190">
                     </el-table-column>
                     <el-table-column
                         prop="tradeStatus"
@@ -480,15 +509,22 @@
                             <span v-if="scope.row.tradeStatus==1&&scope.row.type==2">出金成功</span>
                             <span v-if="scope.row.tradeStatus==-100&&scope.row.type==2">未审核</span>
                             <span v-if="scope.row.tradeStatus==-1&&scope.row.type==2">出金失败</span>
+                            <span v-if="scope.row.tradeStatus==1&&scope.row.type==21">操作成功</span>
+                            <span v-if="scope.row.tradeStatus==1&&scope.row.type==22">操作成功</span>
+                            <span v-if="scope.row.tradeStatus==-1&&scope.row.type==21">操作失败</span>
+                            <span v-if="scope.row.tradeStatus==-1&&scope.row.type==22">操作失败</span>
                         </template>
                     </el-table-column>
                     <el-table-column
-                        prop="comment"
                         label="备注">
+                        <template scope="scope">
+                            <span v-if="scope.row.type==21||scope.row.type==22"></span>
+                            <span v-if="scope.row.type==1||scope.row.type==2">{{ scope.row.comment }}</span>
+                        </template>
                     </el-table-column>
                     <el-table-column>
                         <template scope="scope">
-                            <el-button @click="detailRecord(scope.row)" type="success">详情</el-button>
+                            <el-button @click="detailRecord(scope.row)">详情</el-button>
                         </template>
                     </el-table-column>
                 </el-table>
@@ -499,9 +535,9 @@
                     :page-sizes='[10,20,30,50]'
                     :page-size="widthdrawSearch.pageSize"
                     layout="total,sizes,prev,pager,next,jumper"
-                    :total="widthdrawSearchTotal"></el-pagination>
+                    :total="widthdrawSearchTotal">
+                </el-pagination>
             </el-tab-pane>
-            <div id="pagination"></div>
         </el-tabs>
     </div>
 </template>

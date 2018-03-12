@@ -26,35 +26,35 @@ export default {
             };
             console.log(postData)
             const self = this;
-            this.$ajax({
-                method:'post',
-                url:'/user/noPage/agent',
-                data:postData
-            }).then(function (res) {
-                if(res.data.retCode==0){
-                    console.log('levelFourInfo')
-                    console.log(res)
-                    self.levelFourInfo = res.data.data;
-                }
-            }).catch(function (err) {
-
-            })
+            // this.$ajax({
+            //     method:'post',
+            //     url:'/user/noPage/agent',
+            //     data:postData
+            // }).then(function (res) {
+            //     if(res.data.retCode==0){
+            //         console.log('levelFourInfo')
+            //         console.log(res)
+            //         self.levelFourInfo = res.data.data;
+            //     }
+            // }).catch(function (err) {
+            //
+            // })
         },
         getLevelFour(){
             const self = this;
-            this.$ajax({
-                method:'post',
-                url:'/user/noPage/agent',
-                data:self.totalTeam
-            }).then(function (res) {
-                if(res.data.retCode==0){
-                    console.log('getLevelFour')
-                    console.log(res)
-                    self.tableData5 = res.data.data;
-                }
-            }).catch(function (err) {
-
-            })
+            // this.$ajax({
+            //     method:'post',
+            //     url:'/user/noPage/agent',
+            //     data:self.totalTeam
+            // }).then(function (res) {
+            //     if(res.data.retCode==0){
+            //         console.log('getLevelFour')
+            //         console.log(res)
+            //         self.tableData5 = res.data.data;
+            //     }
+            // }).catch(function (err) {
+            //
+            // })
         }
     },
     mounted(){

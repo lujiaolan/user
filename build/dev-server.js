@@ -24,15 +24,15 @@ var app = express()
 
 
 // 虚拟服务器请求处理添加代码 start
-var baseInfo = require('../api/baseInfo.json');
-var apiRouter = express.Router();
-apiRouter.get('/baseInfo',function (req,res) {
-    res.json({
-        errno: 0,
-        data: baseInfo
-    })
-});
-app.use('/api',apiRouter);
+// var baseInfo = require('../api/baseInfo.json');
+// var apiRouter = express.Router();
+// apiRouter.get('/baseInfo',function (req,res) {
+//     res.json({
+//         errno: 0,
+//         data: baseInfo
+//     })
+// });
+// app.use('/api',apiRouter);
 // 虚拟服务器请求处理 end
 
 var compiler = webpack(webpackConfig)

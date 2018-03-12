@@ -1,6 +1,6 @@
 <template>
     <div class="position">
-        <div class="title-card">
+        <div class="title-card boxShadow">
             <div class="title-info-card width5">
                 <p>US {{ countData.UserBalance }}</p>
                 <p class="title-info-name">余额</p>
@@ -23,11 +23,22 @@
             </div>
         </div>
         <div class="baseListContent">
-            <el-tabs v-model="activeName"  style="margin-bottom: 60px">
+            <el-tabs v-model="activeName" style="margin-bottom: 60px">
                 <el-tab-pane label="当前持仓" name="positionOrder">
                     <div class="recordSelect">
-                        <el-input placeholder="交易账户" v-model="mt4UserId" class="orderSelect"></el-input>
-                        <el-button @click="searchPosition">搜索</el-button>
+                        <el-form>
+                            <el-row>
+                                <el-form-item>
+                                    <span>交易账户</span>
+                                </el-form-item>
+                                <el-form-item>
+                                    <el-input v-model="mt4UserId" class="orderSelect"></el-input>
+                                </el-form-item>
+                                <el-form-item>
+                                    <el-button class="selectBtn" @click="searchPosition">搜索</el-button>
+                                </el-form-item>
+                            </el-row>
+                        </el-form>
                     </div>
                     <el-table :data="positionOrderData" style="width: 100%;" :show-summary="true"
                               :summary-method="getSummaries">
@@ -80,12 +91,6 @@
                             label="隔夜利息">
                         </el-table-column>
                     </el-table>
-                    <!--<div class="position-total">-->
-                        <!--<span>盈亏合计</span>-->
-                        <!--<span>-100</span>-->
-                        <!--<span>-10</span>-->
-                        <!--<span>1983</span>-->
-                    <!--</div>-->
                 </el-tab-pane>
             </el-tabs>
         </div>
@@ -94,7 +99,7 @@
 </template>
 
 <script>
-    module.exports = require('../pageJS/position')
+    module.exports = require('../pageJS/Position')
 </script>
 <style>
     @import "../../../static/css/orderCenter.css";

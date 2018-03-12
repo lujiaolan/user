@@ -96,7 +96,7 @@ export default {
                             UserEquit: self.accounting.formatMoney(0),
                             UserMargin: self.accounting.formatMoney(0),
                             UserFreeMargin: self.accounting.formatMoney(0),
-                            MarginScale: self.accounting.formatMoney(0,2),
+                            MarginScale: self.accounting.formatMoney(0,'',2),
                         }
                     }else {
                         self.countData = res.data.data;
@@ -104,7 +104,7 @@ export default {
                         self.countData.UserEquit = self.accounting.formatMoney(self.countData.UserEquit);
                         self.countData.UserMargin = self.accounting.formatMoney(self.countData.UserMargin);
                         self.countData.UserFreeMargin = self.accounting.formatMoney(self.countData.UserFreeMargin);
-                        self.countData.MarginScale = self.accounting.formatMoney(self.countData.MarginScale,2);
+                        self.countData.MarginScale = self.accounting.formatMoney(self.countData.MarginScale,'',2);
                     }
                 }
             }).catch(function (err) {

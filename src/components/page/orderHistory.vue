@@ -1,6 +1,6 @@
 <template>
     <div class="history">
-        <div class="title-card">
+        <div class="title-card boxShadow">
             <div class="title-info-card width4">
                 <p>{{ countData.TradeVolume }}</p>
                 <p class="title-info-name">总交易手数</p>
@@ -23,45 +23,54 @@
                 <el-tab-pane label="记录查询" name="orderRecord">
                     <div class="recordSelect">
                         <el-form :model="orderSelect" ref="orderSelect" :rules="orderSelectRules">
-                            <el-form-item><span>查询条件</span></el-form-item>
-                            <el-form-item prop="mt4UserId">
-                                <el-input placeholder="交易账户" v-model="orderSelect.mt4UserId" class="orderSelect"></el-input>
-                            </el-form-item>
-                            <el-form-item prop="orderRecordValue">
-                                <el-select v-model="orderSelect.orderRecordValue" placeholder="请选择" @change="changeDate">
-                                    <el-option
-                                        v-for="item in orderRecordOptions"
-                                        :key="item.value"
-                                        :value="item.value">
-                                    </el-option>
-                                </el-select>
-                            </el-form-item>
-                            <el-form-item prop="orderRecordDate0">
-                                <el-date-picker
-                                    :disabled="datePickerVisible"
-                                    placeholder="开始时间"
-                                    v-model="orderSelect.orderRecordDate0">
-                                </el-date-picker>
-                            </el-form-item>
-                            <el-form-item prop="orderRecordDate1">
-                                <el-date-picker
-                                    :disabled="datePickerVisible"
-                                    placeholder="结束时间"
-                                    v-model="orderSelect.orderRecordDate1">
-                                </el-date-picker>
-                            </el-form-item>
-                            <el-form-item prop="transCurrency">
-                                <el-select v-model="orderSelect.transCurrency" placeholder="请选择">
-                                    <el-option
-                                        v-for="item in transCurrencyOptions"
-                                        :key="item.val"
-                                        :value="item.val">
-                                    </el-option>
-                                </el-select>
-                            </el-form-item>
-                            <el-form-item>
-                                <el-button @click="searchOrderHistory('orderSelect')">搜索</el-button>
-                            </el-form-item>
+                            <el-row>
+                                <el-form-item>
+                                    <span>查询条件</span>
+                                </el-form-item>
+                                <el-form-item prop="mt4UserId">
+                                    <el-input placeholder="交易账户" v-model="orderSelect.mt4UserId" class="orderSelect"></el-input>
+                                </el-form-item>
+                                <el-form-item prop="orderRecordValue">
+                                    <el-select v-model="orderSelect.orderRecordValue" placeholder="请选择" @change="changeDate">
+                                        <el-option
+                                            v-for="item in orderRecordOptions"
+                                            :key="item.value"
+                                            :value="item.value">
+                                        </el-option>
+                                    </el-select>
+                                </el-form-item>
+                                <el-form-item class="labelItem">
+                                    <span>自定义</span>
+                                </el-form-item>
+                                <el-form-item prop="orderRecordDate0">
+                                    <el-date-picker
+                                        :disabled="datePickerVisible"
+                                        placeholder="开始时间"
+                                        :editable="editableDate"
+                                        v-model="orderSelect.orderRecordDate0">
+                                    </el-date-picker>
+                                </el-form-item>
+                                <el-form-item prop="orderRecordDate1">
+                                    <el-date-picker
+                                        :disabled="datePickerVisible"
+                                        :editable="editableDate"
+                                        placeholder="结束时间"
+                                        v-model="orderSelect.orderRecordDate1">
+                                    </el-date-picker>
+                                </el-form-item>
+                                <el-form-item prop="transCurrency">
+                                    <el-select v-model="orderSelect.transCurrency" placeholder="请选择">
+                                        <el-option
+                                            v-for="item in transCurrencyOptions"
+                                            :key="item.val"
+                                            :value="item.val">
+                                        </el-option>
+                                    </el-select>
+                                </el-form-item>
+                                <el-form-item>
+                                    <el-button @click="searchOrderHistory('orderSelect')">搜索</el-button>
+                                </el-form-item>
+                            </el-row>
                         </el-form>
                     </div>
                     <el-table :data="orderHistoryData" style="width: 100%" @sort-change="sortColumn">
@@ -133,13 +142,11 @@
                             label="浮动盈亏">
                         </el-table-column>
                     </el-table>
-                    <div class="block">
-                        <el-pagination @size-change="SizeChange" @current-change="currentChange"
+                    <el-pagination @size-change="SizeChange" @current-change="currentChange"
                                        :current-page.sync="pageModel.page"
                                        :page-sizes="[10,20,30, 50]" :page-size="pageModel.pageSize"
                                        layout="total, sizes, prev, pager, next, jumper"  :total="totalData">
-                        </el-pagination>
-                    </div>
+                    </el-pagination>
                 </el-tab-pane>
                 <el-tab-pane label="货币对统计" name="currencyCount">
                     <el-table :data="currencyCountData" style="width: 100%">
@@ -181,7 +188,7 @@
 </template>
 
 <script>
-module.exports = require('../pageJS/orderHistory')
+module.exports = require('../pageJS/OrderHistory')
 </script>
 
 <style scoped>

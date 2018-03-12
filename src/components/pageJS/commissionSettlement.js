@@ -4,7 +4,7 @@ export default {
             activeName: 'countCom',
             activeName2: "4",
             selectAllStatus: false,
-
+            editableDate:false,
             // 结算佣金查询的条件
             commissionHandle:{
                 mt4Account: '',
@@ -106,7 +106,7 @@ export default {
             }
         },
 
-        // 已产生的平仓单数据和已申请审核的平仓单数据
+        // 已产生的平仓单数据
         getApplyData() {
             var self = this;
             var postData = {};
@@ -141,36 +141,7 @@ export default {
                 self.$message.error("网络错误");
             });
         },
-
-        getDealData() {
-            var self = this;
-            var postData = {};
-            postData.userId = self.$store.state.user.userinfo._id;
-            postData.page = self.dealPaginationData.page.toString();
-            postData.pageSize = self.dealPaginationData.pageSize.toString();
-            postData.status = self.dealStatus;
-            console.log(postData);
-            self.$ajax({
-                method:'post',
-                data:postData,
-                url:'/commission/currComplete'
-            }).then(function (res) {
-                // console.log(res);
-                if (res.data.retCode == 0) {
-                    self.dealTableData = res.data.data.data;
-                    self.dealTableData.moneyAmount = res.data.data.moneyAmount;
-                    self.dealTableData.recordsNum = res.data.data.records;
-                    self.dealTableData.totalCountApply = res.data.data.total;
-                    // console.log(self.dealTableData);
-                }else {
-                    self.$message.error(self.res.data.message);
-                }
-            }).catch(function (err) {
-                self.$message.error("网络错误");
-            });
-        },
-
-        // // 切换tabs请求不同的数据
+        // 切换tabs请求不同的数据
         activeChange(val){
             var self = this;
             if(val.name == 'countCom'){
@@ -217,59 +188,55 @@ export default {
                 this.selectAllStatus = true;
             }
         },
-        // 全部申请审核
-        allApply() {
-            var self = this;
-            var postData = {};
-            postData.userId = self.$store.state.user.userinfo._id;
-            console.log(self.selectAllStatus);
-            if(self.selectAllStatus){
-                self.$ajax({
-                    method:'post',
-                    data:postData,
-                    url:'/commission/allApply'
-                }).then(function (res) {
-                    // console.log(res);
-                    if(res.data.retCode == 0){
-                        self.getApplyData();
-                        self.selectAllStatus = false;
-                    }
-                }).catch(function (err) {
-                })
-            }else {
-               self.$message({
-                   message: '请把全部选项都选上',
-                   type: 'error'
-               });
-            }
-        },
-
         // 部分申请
         selectVisible(selection){
             // console.log(selection);
             this.selectionData = selection;
         },
-        partApply() {
-            var self = this;
-            var postData = {};
-            var comIds = [];
-            for(var i = 0;i<self.selectionData.length;i++){
-                comIds.push(self.selectionData[i]._id);
-            }
-            postData.commIds = comIds;
-            // console.log(postData);
-            self.$ajax({
-                method: 'post',
-                data:postData,
-                url:'/commission/apply'
-            }).then(function (res) {
-                console.log(res);
-                if(res.data.retCode == 0){
-                    self.getApplyData();
+        // 申请结算佣金（确认结算）
+        commissionApply() {
+            const self = this;
+            const postData = {};
+            const commIds = [];
+            if (this.selectAllStatus) {
+                postData.userId = self.$store.state.user.userinfo._id;
+                self.$ajax({
+                    method: 'post',
+                    data: postData,
+                    url: '/commission/allApply'
+                }).then(function (res) {
+                    // console.log(res);
+                    if (res.data.retCode == 0) {
+                        self.getApplyData();
+                        self.selectAllStatus = false;
+                    }
+                }).catch(function (err) {
+                })
+            } else {
+                // 部分申请
+                for (var i = 0; i < self.selectionData.length; i++) {
+                    commIds.push(self.selectionData[i]._id);
                 }
-            })
+                postData.commIds = commIds;
+                postData.userId = self.$store.state.user.userinfo._id;
+                // console.log(postData);
+                self.$ajax({
+                    method: 'post',
+                    data: postData,
+                    url: '/commission/apply'
+                }).then(function (res) {
+                    console.log(res);
+                    if (res.data.retCode == 0) {
+                        self.getApplyData();
+                    }else {
+                        self.$message({
+                            type: 'error',
+                            message: res.data.data.errMsg
+                        })
+                    }
+                })
+            }
         },
-
         // // 已产生的平仓单的数据分页
         applyCurrentChange(val) {
             this.applyPaginationData.page = val;
@@ -280,21 +247,52 @@ export default {
             this.getApplyData();
         },
 
+        // 结算记录（已经提交申请审核的平仓单的数据）
+        getDealData() {
+            const self = this;
+            const postData = {};
+            postData.userId = self.$store.state.user.userinfo._id;
+            postData.page = self.dealPaginationData.page.toString();
+            postData.pageSize = self.dealPaginationData.pageSize.toString();
+            postData.status = self.dealStatus;
+            console.log(postData);
+            self.$ajax({
+                method:'post',
+                data:postData,
+                url:'/commission/sum/all'
+            }).then(function (res) {
+                // console.log(res);
+                if (res.data.retCode == 0) {
+                    self.dealTableData = res.data.data.data;
+                    self.dealTableData.forEach(function (item,index) {
+                        self.dealTableData[index].money = self.accounting.formatMoney(item.money,'',2,',','.');
+                    });
+                    // self.dealTableData.moneyAmount = res.data.data.moneyAmount;
+                    // self.dealTableData.recordsNum = res.data.data.records;
+                    self.dealTableData.totalCountApply = res.data.data.total;
+                    // console.log(self.dealTableData);
+                }else {
+                    self.$message.error(self.res.data.message);
+                }
+            }).catch(function (err) {
+                self.$message.error("网络错误");
+            });
+        },
         // // 已经提交申请审核的平仓单的数据的状态分类
         dealStatusChange(val){
             var self = this;
             // console.log(val);
-            if(val.name == "1"){
+            if(val.name == "2"){
                 //等待处理
                 self.dealStatus = "2";
                 self.dealPaginationData.page = "1";
                 self.dealPaginationData.pageSize = "10";
-            }else if(val.name == "2"){
+            }else if(val.name == "1"){
                 //已完成
                 self.dealStatus = "1";
                 self.dealPaginationData.page = "1";
                 self.dealPaginationData.pageSize = "10";
-            }else if(val.name == "3"){
+            }else if(val.name == "-1"){
                 //失败
                 self.dealStatus = "-1";
                 self.dealPaginationData.page = "1";
@@ -306,7 +304,6 @@ export default {
             }
             self.getDealData();
         },
-
         // // 已经提交申请审核的数据分页
         dealCurrentChange(val){
             // console.log(val);
@@ -316,6 +313,19 @@ export default {
         dealSizeChange(val){
             this.dealPaginationData.pageSize = val;
             this.getDealData();
+        },
+
+
+        // 详情
+        commissionDetailShow(row){
+            const self = this;
+            this.$store.dispatch('update_detail_id',{
+                detailId: row._id,
+                detailVisible: true,
+            });
+            console.log(this.$store.state.detail.detailId);
+            console.log(this.$store.state.detail.detailVisible);
+            self.$router.push('/userCommission/commissionHistory');
         }
     },
     // watch(){

@@ -6,30 +6,30 @@
                     <div class="recordSelect">
                        <el-form ref="totalTeam" :model="totalTeam" :rules="totalTeam_rules">
                            <el-row>
-                               <el-col :span="24">
-                                   <el-col :span="4">
-                                       <el-form-item>
-                                           <span>查询条件</span>
-                                           <el-input placeholder="用户名/邮箱/电话" style="display: inline-block;width: 196px"
-                                                     v-model="totalTeam.agentNameLike"></el-input>
-                                       </el-form-item>
-                                   </el-col>
-                                   <el-col :span="3">
-                                       <el-form-item prop="startTime">
+                               <el-form-item>
+                                   <span>查询条件</span>
+                               </el-form-item>
+                               <el-form-item>
+                                   <el-input placeholder="用户名/邮箱/电话" v-model="totalTeam.agentNameLike"></el-input>
+                               </el-form-item>
+                               <el-form-item class="labelItem">
+                                   <span>自定义</span>
+                               </el-form-item>
+                               <el-form-item prop="startTime">
                                            <el-date-picker
+                                               :editable="editableDate"
                                                v-model="totalTeam.startTime" @key.enter.enter="searchTeamInfo('totalTeam')">
                                            </el-date-picker>
                                        </el-form-item>
-                                   </el-col>
-                                   <el-col :span="6">
-                                       <el-form-item prop="endTime">
-                                           <el-date-picker
-                                               v-model="totalTeam.endTime" @key.enter.enter="searchTeamInfo('totalTeam')">
-                                           </el-date-picker>
-                                           <el-button @click="searchTeamInfo('totalTeam')">搜索</el-button>
-                                       </el-form-item>
-                                   </el-col>
-                               </el-col>
+                               <el-form-item prop="endTime">
+                                   <el-date-picker
+                                       :editable="editableDate"
+                                       v-model="totalTeam.endTime" @key.enter.enter="searchTeamInfo('totalTeam')">
+                                   </el-date-picker>
+                               </el-form-item>
+                               <el-form-item>
+                                   <el-button class="selectBtn" @click="searchTeamInfo('totalTeam')">搜索</el-button>
+                               </el-form-item>
                            </el-row>
                        </el-form>
                     </div>
@@ -105,17 +105,34 @@
                 </el-tab-pane>
                 <el-tab-pane label="开户记录" name="totalStoreCostAmount">
                     <div class="recordSelect">
-                        <span>查询条件</span>
-                        <el-input placeholder="MT4帐户名" style="display: inline-block;width: 196px"
-                        v-model="teamMT4Search.MT4UserId"
-                        ></el-input>
-                        <el-date-picker
-                            v-model="teamMT4Search.startTime">
-                        </el-date-picker>
-                        <el-date-picker
-                            v-model="teamMT4Search.endTime">
-                        </el-date-picker>
-                        <el-button>搜索</el-button>
+                        <el-form :model="teamMT4Search">
+                            <el-row>
+                                <el-form-item>
+                                    <span>查询条件</span>
+                                </el-form-item>
+                                <el-form-item prop="MT4UserId">
+                                    <el-input placeholder="MT4帐户名" v-model="teamMT4Search.MT4UserId"></el-input>
+                                </el-form-item>
+                                <el-form-item class="labelItem">
+                                    <span>自定义</span>
+                                </el-form-item>
+                                <el-form-item prop="startTime">
+                                    <el-date-picker
+                                        :editable="editableDate"
+                                        v-model="teamMT4Search.startTime">
+                                    </el-date-picker>
+                                </el-form-item>
+                                <el-form-item prop="endTime">
+                                    <el-date-picker
+                                        :editable="editableDate"
+                                        v-model="teamMT4Search.endTime">
+                                    </el-date-picker>
+                                </el-form-item>
+                                <el-form-item>
+                                    <el-button class="selectBtn">搜索</el-button>
+                                </el-form-item>
+                            </el-row>
+                        </el-form>
                     </div>
                     <el-table :data="teamMT4Stat" style="width: 100%">
                         <el-table-column
@@ -163,15 +180,34 @@
                 </el-tab-pane>
                 <el-tab-pane label="仓位总结" name="totalProcedureAmount">
                     <div class="recordSelect">
-                        <span>查询条件</span>
-                        <el-input placeholder="MT4帐户名" style="display: inline-block;width: 196px"></el-input>
-                        <el-date-picker
-                            v-model="orderRecordDate0">
-                        </el-date-picker>
-                        <el-date-picker
-                            v-model="orderRecordDate1">
-                        </el-date-picker>
-                        <el-button>搜索</el-button>
+                        <el-form :model="positionCountForm">
+                            <el-row>
+                                <el-form-item>
+                                    <span>查询条件</span>
+                                </el-form-item>
+                                <el-form-item prop="MT4UserId">
+                                    <el-input placeholder="MT4帐户名" v-model="positionCountForm.MT4UserId"></el-input>
+                                </el-form-item>
+                                <el-form-item class="labelItem">
+                                    <span>自定义</span>
+                                </el-form-item>
+                                <el-form-item prop="startTime">
+                                    <el-date-picker
+                                        :editable="editableDate"
+                                        v-model="positionCountForm.startTime">
+                                    </el-date-picker>
+                                </el-form-item>
+                                <el-form-item prop="endTime">
+                                    <el-date-picker
+                                        :editable="editableDate"
+                                        v-model="positionCountForm.endTime">
+                                    </el-date-picker>
+                                </el-form-item>
+                                <el-form-item>
+                                    <el-button class="selectBtn">搜索</el-button>
+                                </el-form-item>
+                            </el-row>
+                        </el-form>
                     </div>
                     <el-table :data="orderRecordData" style="width: 100%">
                         <el-table-column

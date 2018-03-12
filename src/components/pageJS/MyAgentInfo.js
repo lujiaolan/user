@@ -6,8 +6,15 @@ export default {
     data: function () {
         let arg1 = /^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$/;
         //18位数身份证正则表达式
-        let arg2 = /^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])((\d{4})|\d{3}[A-Z])$/;
+        let arg2 = /^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])((\d{4})|\d{3}[a-zA-Z])$/;
         return {
+            // myInfoUpload: this.$store.state.baseUrl + '/crm/ap/img/upload',
+            IDCardHeadPicUpload: 'http://120.77.234.9:8080/crm/aider/oss/udeacrm/IDCardHeadPic'+ this.$store.state.user.userinfo._id + '?dir=ap-logo/&contentType=image/jpeg',
+            IDCardTailPicUpload: 'http://120.77.234.9:8080/crm/aider/oss/udeacrm/IDCardTailPic'+ this.$store.state.user.userinfo._id + '?dir=ap-logo/&contentType=image/jpeg',
+            bankCardHeadPicUpload: 'http://120.77.234.9:8080/crm/aider/oss/udeacrm/bankCardHeadPic'+ this.$store.state.user.userinfo._id + '?dir=ap-logo/&contentType=image/jpeg',
+            bankCardTailPicUpload: 'http://120.77.234.9:8080/crm/aider/oss/udeacrm/bankCardTailPic'+ this.$store.state.user.userinfo._id + '?dir=ap-logo/&contentType=image/jpeg',
+            editableDate:false,
+            getMt4Err:true,
             activeName: 'baseInfo',
             onchangeInfoShow: true,
             mt4AccountBalance:{
@@ -97,7 +104,7 @@ export default {
                             callback()
                         }
                     }
-                }
+                },
             },
             changeLeverVisible: false,
 
@@ -107,6 +114,7 @@ export default {
                 accountType:'',//realTransferRules,demoTransferRules,agentAccountRules
                 apId:this.$store.state.domain.domain.domain.apId,
                 User: '',
+                IDName:'',
                 UserGroupName: this.$store.state.domain.domain.domain.realGroupName,
                 UserPwd: '',
                 UserInvestorpwd: '',
@@ -116,13 +124,12 @@ export default {
                 UserState:'' ,
                 UserZipcode: '',
                 UserAddress:'' ,
-                UserPhone: '',
-                UserEmail: '',
+                UserPhone: this.$store.state.user.userinfo.userPhone,
+                UserEmail: this.$store.state.user.userinfo.userEmail,
                 UserComment:'' ,
                 UserStatus:'' ,
                 UserAgentAccount:0 ,
-                UserLeverage:10 ,
-                UserSendreports: 1,
+                UserLeverage:'' ,
                 UserDeposit:0,
                 UserIRD:'',
 
@@ -133,6 +140,40 @@ export default {
                     message:'请选择类型',
                     trigger:'blur'
                 }],
+                UserPwd: [
+                    {
+                        required: true,
+                        validator:(rules,value,callback)=>{
+                            if(value==''||value==null){
+                                callback(new Error('请输入主密码'))
+                            }else {
+                                if(/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,10}$/.test(value)){
+                                    callback()
+                                }else{
+                                    callback(new Error('请输入6-20个字母或数字组成的密码'))
+                                }
+                            }
+                        },
+                        trigger: 'blur'
+                    }
+                ],
+                UserInvestorpwd: [
+                    {
+                        required: true,
+                        validator:(rules,value,callback)=>{
+                            if(value==''||value==null){
+                                callback(new Error('请输入观摩密码'))
+                            }else {
+                                if(/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,10}$/.test(value)){
+                                    callback()
+                                }else{
+                                    callback(new Error('请输入6-20个字母或数字组成的密码'))
+                                }
+                            }
+                        },
+                        trigger: 'blur'
+                    }
+                ],
                 // symbol:[{
                 //     required:true,
                 //     message:'请选择货币',
@@ -140,54 +181,42 @@ export default {
                 // }],
                 UserLeverage:[{
                     required:true,
-                    type:'number',
                     message:'请选择杠杆',
                     trigger:'blur'
-                }]
+                }],
+
             },
             accountList:[],
-            levelList:[
-                {
-                    label:"1:10",
-                    value:10
-                },
-                {
-                    label:'1:20',
-                    value:20
-                },
-                {
-                    label:'1:50',
-                    value:50
-                },
-                {
-                    label:'1:100',
-                    value:100
-                },
-                {
-                    label:'1:200',
-                    value:200
-                },
-                {
-                    label:'1:400',
-                    value:400
-                },
-                {
-                    label:'1:500',
-                    value:500
-                },
-                {
-                    label:'1:800',
-                    value:800
-                }],
+            levelList:[],
             rules_userInfo:{
                 userEngName: [{
                     required: true,
-                    message: '请输入英文名称',
+                    validator:(rules,value,callback)=>{
+                        if(value==''){
+                            callback(new Error('请输入英文名称'))
+                        }  else{
+                            if(/^[a-zA-Z]+$/.test(value)){
+                                callback();
+                            }else{
+                                callback(new Error('请输入正确的英文名称'))
+                            }
+                        }
+                    },
                     trigger: 'blur'
                 }],
                 spell: [{
                     required: true,
-                    message: '请输入名字拼音',
+                    validator:(rules,value,callback)=>{
+                        if(value==''){
+                            callback(new Error('请输入名字拼音'))
+                        }  else{
+                            if(/^[a-zA-Z]+$/.test(value)){
+                                callback();
+                            }else{
+                                callback(new Error('请输入正确的名字拼音'))
+                            }
+                        }
+                    },
                     trigger: 'blur'
                 }],
                 sex: [{
@@ -198,7 +227,17 @@ export default {
 
                 country: [{
                     required: true,
-                    message: '请输入国籍',
+                    validator: (rules, value, callback) => {
+                        if (value == '') {
+                            callback(new Error('请输入国籍'))
+                        } else {
+                            if (/^[0-9]{1,}$/.test(value)) {
+                                callback('请输入正确国籍')
+                            } else {
+                                callback()
+                            }
+                        }
+                    },
                     trigger: 'blur'
                 }],
                 addressOne: [{
@@ -222,11 +261,11 @@ export default {
                     },
                     trigger: 'blur'
                 }],
-                cardHolder: [{
-                    required: true,
-                    message: '请输入持卡人',
-                    trigger: 'blur'
-                }],
+                // cardHolder: [{
+                //     required: true,
+                //     message: '请输入持卡人',
+                //     trigger: 'blur'
+                // }],
                 userPhone: [{
                     required: true,
                     validator:(rules,value,callback)=>{
@@ -243,26 +282,26 @@ export default {
                     },
                     trigger: 'blur'
                 }],
-                userEmail: [{
-                    required: true,
-                    validator:(rule,value,callback)=>{
-                        if(value==''){
-                            callback(new Error('请输入邮箱'))
-                        } else{
-                            if(/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/.test(value)){
-                                callback();
-                            }else {
-                                callback(new Error('请输入有效邮箱!'));
-                            }
-                        }
-                    },
-                    trigger: 'blur'
-                }],
+                // userEmail: [{
+                //     required: true,
+                //     validator:(rule,value,callback)=>{
+                //         if(value==''){
+                //             callback(new Error('请输入邮箱'))
+                //         } else{
+                //             if(/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/.test(value)){
+                //                 callback();
+                //             }else {
+                //                 callback(new Error('请输入有效邮箱!'));
+                //             }
+                //         }
+                //     },
+                //     trigger: 'blur'
+                // }],
 
                 IDNumber: [{
                     required: true,
                     validator:(rules,value,callback)=>{
-                        if(value==''){
+                        if(value==''||value==undefined){
                             callback(new Error('请输入身份证'))
                         }  else{
                             if( value.match(arg1) == null && value.match(arg2) == null){
@@ -276,7 +315,7 @@ export default {
                 }],
                 IDName: [{
                     required: true,
-                    message: '请输入姓名',
+                    message: '请输入身份证件与银行卡登记姓名',
                     trigger: 'blur'
                 }],
                 IDCardHeadPic: [{
@@ -301,7 +340,17 @@ export default {
                 }],
                 bankCardNumbers: [{
                     required: true,
-                    message: '请输入银行卡号',
+                    validator:(rules,value,callback)=>{
+                        if(value==''){
+                            callback(new Error('请输入银行卡号'))
+                        }  else{
+                            if(/^[\s\d]{14,24}$/.test(value)){
+                                callback();
+                            }else{
+                                callback(new Error('请输入正确的银行卡号'))
+                            }
+                        }
+                    },
                     trigger: 'blur'
                 }],
                 addressDetail: [{
@@ -362,7 +411,11 @@ export default {
                             }else if(this.inTurnForm.inAccount === val){
                                 callback(new Error('转入转出账户不能相同'))
                             }else {
-                                callback()
+                                if(this.getMt4Err){
+                                    callback()
+                                }else{
+                                    callback(new Error('这个账户不存在'))
+                                }
                             }
                         }
                     }
@@ -410,7 +463,8 @@ export default {
                     }
                 ]
             },
-            accountCheckList: '',
+            inAccountCheckList: '',
+            outAccountCheckList: '',
             inTurnLoading: false
         }
     },
@@ -418,7 +472,39 @@ export default {
         'baseInfo.IDName':function (val) {
             // console.log(val)
             this.baseInfo.cardHolder = val;
+        },
+        'inTurnForm.outAccount':function (val) {
+            const self = this;
+            self.accountBalance = 0;
+            if(val === '钱包余额'){
+                this.accountBalance = this.$store.state.balance.money
+            }else {
+                let postData = {
+                    apId: self.$store.state.domain.domain.domain.apId,
+                    mt4UserId: val
+                };
+                console.log("获取对应MT4帐号余额" , postData);
+                self.$ajax({
+                    method: 'post',
+                    data: postData,
+                    url: '/deposit/mt4'
+                }).then(function (res) {
+                    console.log('这个账户不存在:')
+                    console.log(res)
+                    if(res.data.retCode === 0){
+                        console.log('转入时获取对应MT4账户的余额');
+                        console.log(res.data.data);
+                        self.accountBalance = res.data.data.money;
+                    }else {
+                        self.getMt4Err = false;
+                    }
+                }).catch(function (err) {
+
+                    self.getMt4Err = false;
+                })
+            }
         }
+
     },
     methods: {
         resetPwd(row){
@@ -462,14 +548,14 @@ export default {
                             self.getMT4ApplyList();
                         } else {
                             self.$message({
-                                message: '申请修改杠杆失败，请联系客服',
+                                message: '您提交的修改杠杆信息正在审核中，请耐心等待',
                                 showClose: true,
                                 type: 'info'
                             });
                         }
                     }).catch(function (err) {
                         self.$message({
-                            message: '申请修改杠杆失败，请联系客服',
+                            message: '您提交的修改杠杆信息正在审核中，请耐心等待',
                             showClose: true,
                             type: 'error'
                         });
@@ -481,22 +567,27 @@ export default {
 
         },
         changeLever(row){
+            this.getMt4LeverList()
             this.modifyLevelVisible = true;
             this.modifyLevel = {
                 UserLoginID: row.UserLoginID,
-                UserLeverage:row.UserLerverage
+                UserLeverage:row.UserLeverage
             };
             this.modifyLevelPostData = {
-                apId: row.apId,
+                apId: this.$store.state.user.userinfo.apId,
+                userId: this.$store.state.user.userinfo._id,
                 mt4UserId: row.UserLoginID,
-                userId: row.userId,
                 email: row.UserEmail,
-                oldUserLeverage: row.UserLerverage,
+                oldUserLeverage: row.UserLeverage,
             };
             console.log('changeLever row');
             console.log(row);
-            if(row.leverageStatus == 0){
-                this.changeLeverVisible = true
+            if(row.leverageStatus){
+                if(row.leverageStatus == 0 ){
+                    this.changeLeverVisible = true
+                }else {
+                    this.changeLeverVisible = false
+                }
             }else {
                 this.changeLeverVisible = false
             }
@@ -560,7 +651,74 @@ export default {
         },
         newAccount() {
             const self = this;
+            let comfirmStatus = null;
             console.log("newAccount");
+
+            this.$ajax({
+                method:'get',
+                url:'/user/'+this.userId+'/verifyStatus',
+            }).then(function (res) {
+                console.log(res)
+                console.log( res.data.data.verifyStatus)
+                if(res.data.retCode==0){
+                    comfirmStatus = res.data.data.verifyStatus;
+                    if(comfirmStatus=='1'){
+                        self.getCanApplyMt4();
+                        self.getMt4LeverList();
+                    }else if(comfirmStatus==-1){
+                        self.$message({
+                            message:'您的资料未审核,请先耐心等待',
+                            type:'warning',
+                            showClose:true
+                        });
+                    }else if(comfirmStatus==0){
+                        self.$message({
+                            message:'您的资料未上传,请先完善资料',
+                            type:'warning',
+                            showClose:true
+                        });
+                    }else if(comfirmStatus==2){
+                        self.$message({
+                            message:'您的资料审核失败,请重新提交资料',
+                            type:'warning',
+                            showClose:true
+                        });
+                    }
+                }else{
+                    self.$message({
+                        type: 'warning',
+                        message: '网络错误',
+                        showClose: true
+                    });
+                }
+            }).catch(function (err) {
+                self.$message({
+                    message:'网络错误',
+                    type:'error',
+                    showClose:true
+                });
+            });
+        },
+        //获取设置后台设置杠杆
+        getMt4LeverList(){
+            const self = this;
+            this.$ajax({
+                method:'get',
+                url:'/ap/mt4Config/'+this.$store.state.domain.domain.domain.apId+'/mt4Info'
+            }).then(function (res) {
+                console.log(res)
+                if (res.data.retCode===0){
+                    self.levelList = res.data.data.leverConfig;
+                }else{
+                    self.levelList = ['无数据']
+                }
+            }).catch(function (err) {
+                self.levelList = ['无数据']
+            })
+        },
+        //获取该用户能否开多少个MT4
+        getCanApplyMt4(){
+            const self = this;
             this.$ajax({
                 method: 'get',
                 url: '/mt4User/' + this.userId + '/canApplyMt4',
@@ -571,6 +729,10 @@ export default {
                 self.canApplyMt4 = 5 - res.data.data.mt4UserNumber;
                 if (res.data.retCode == 0) {
                     self.mtDialogVisible = true;
+                    self.mt4ApplyInfo.IDName = self.baseInfo.IDName;
+                    self.mt4ApplyInfo.UserIRD = self.baseInfo.IDCard.IDNumber;
+                    self.mt4ApplyInfo.UserPhone = self.baseInfo.userPhone;
+                    self.mt4ApplyInfo.UserEmail = self.baseInfo.userEmail;
                 } else {
                     self.$message({
                         showClose: true,
@@ -583,7 +745,6 @@ export default {
             }).catch(function (err) {
 
             })
-
         },
         onChangeInfo(){
             this.onchangeInfoShow = false;
@@ -682,6 +843,10 @@ export default {
             }
         },
         getMyUserInfo(){
+            this.imageUrl.IHimg = '';
+            this.imageUrl.ITimg = '';
+            this.imageUrl.BHimg = '';
+            this.imageUrl.BTimg = '';
             console.log('this.$store.state.user.userinfo._id');
             const userId = this.userId;
             const self = this;
@@ -689,7 +854,7 @@ export default {
             if (userId) {
                 this.$ajax({
                     method: 'get',
-                    url: '/user/' + userId
+                    url: '/other/user/' + userId
                 }).then(function (res) {
                     if (res.data.retCode == 0) {
                         console.log('获取')
@@ -702,6 +867,10 @@ export default {
                         });
                         console.log('self.$store.state.myInfoStatus.verifyStatus');
                         console.log(self.$store.state.myInfoStatus.verifyStatus);
+
+                        const userinfo = getInfo;
+                        self.$store.dispatch('update_userinfo',{userinfo});
+
                         if(self.$store.state.myInfoStatus.verifyStatus === 1){
                             self.isDisabled = true;
                             self.onchangeInfoShow = false;
@@ -731,6 +900,7 @@ export default {
                             self.baseInfo.IDName = getInfo.IDCard.IDName;
                             self.baseInfo.cardHolder = getInfo.IDCard.IDName;
                             self.baseInfo.IDNumber = getInfo.IDCard.IDNumber;
+                            self.mt4ApplyInfo.UserIRD = getInfo.IDCard.IDNumber;
                             if(res.data.data.IDCard.IDCardHeadPic){
                                 self.baseInfo.IDCardHeadPic = getInfo.IDCard.IDCardHeadPic;
                                 self.baseInfo.IDCardTailPic = getInfo.IDCard.IDCardTailPic;
@@ -803,18 +973,18 @@ export default {
         },
         handleIHSuccessPic(res, file){
             this.imageUrl.IHimg = file.url;
-            this.baseInfo.IDCardHeadPic = file.response.data.fileName;
+            this.baseInfo.IDCardHeadPic = res.data;
         },
         handleBTSuccessPic(res, file){
-            this.baseInfo.bankCardTailPic = file.response.data.fileName;
+            this.baseInfo.bankCardTailPic = res.data;
             this.imageUrl.BTimg = file.url;
         },
         handleBHSuccessPic(res, file){
             this.imageUrl.BHimg = file.url;
-            this.baseInfo.bankCardHeadPic = file.response.data.fileName;
+            this.baseInfo.bankCardHeadPic = res.data;
         },
         handleITSuccessPic(res, file){
-            this.baseInfo.IDCardTailPic = file.response.data.fileName;
+            this.baseInfo.IDCardTailPic = res.data;
             this.imageUrl.ITimg = file.url;
         },
         cancelMT4Apply(ref){
@@ -852,87 +1022,63 @@ export default {
                 UserState:this.mt4ApplyInfo.UserState,
                 UserZipcode: "",
                 UserAddress: this.mt4ApplyInfo.UserAddress,
-                UserPhone: this.$store.state.user.userinfo.userPhone,
-                UserEmail: this.$store.state.user.userinfo.userEmail,
-                UserComment: this.$store.state.user.userinfo.userEmail,
-                UserLeverage: this.mt4ApplyInfo.UserLeverage,
-                UserSendreports: 1,
+                UserPhone:this.mt4ApplyInfo.UserPhone,
+                UserEmail: this.mt4ApplyInfo.UserEmail,
+                UserComment: 'crm',
+                UserLeverage: parseInt(this.mt4ApplyInfo.UserLeverage),
+                UserPwd: this.mt4ApplyInfo.UserPwd,
+                UserInvestorpwd: this.mt4ApplyInfo.UserInvestorpwd,
             };
             console.log('postData')
             console.log(postData)
             self.$refs[ref].validate((valid) => {
                 if (valid) {
-                    this.$ajax({
-                        method:'get',
-                        url:'/user/'+this.userId+'/verifyStatus',
+                    self.$ajax({
+                        method: 'post',
+                        url: '/other/apply/mt4',
+                        data: postData
                     }).then(function (res) {
                         console.log(res)
-                        console.log( res.data.data.verifyStatus)
-                        if(res.data.retCode==0){
-                            comfirmStatus = res.data.data.verifyStatus;
-                            if(comfirmStatus=='1'){
-                                self.$ajax({
-                                    method: 'post',
-                                    url: 'http://120.77.55.98:8080/crm/apply/mt4',
-                                    data: postData
-                                }).then(function (res) {
-                                    console.log(res)
-                                    if (res.data.retCode == 0) {
-                                        self.$message({
-                                            type: 'info',
-                                            message: '申请成功',
-                                            showClose: true
-                                        });
-                                        self.getMT4ApplyList();
-                                    } else {
-                                        self.$message({
-                                            type: 'warning',
-                                            message: '申请失败',
-                                            showClose: true
-                                        });
-                                    }
-                                }).catch(function (err) {
-                                    self.$message({
-                                        type: 'error',
-                                        message: '网络错误',
-                                        showClose: true
-                                    });
-                                });
-                            }else if(comfirmStatus==-1){
-                                self.$message({
-                                    message:'您的资料未审核,请先耐心等待',
-                                    type:'warning',
-                                    showClose:true
-                                });
-                            }else if(comfirmStatus==0){
-                                self.$message({
-                                    message:'您的资料未上传,请先完善资料',
-                                    type:'warning',
-                                    showClose:true
-                                });
-                            }else if(comfirmStatus==2){
-                                self.$message({
-                                    message:'您的资料审核失败,请重新提交资料',
-                                    type:'warning',
-                                    showClose:true
-                                });
-                            }
-                        }else{
+                        if (res.data.retCode == 0) {
                             self.$message({
-                                type: 'warning',
-                                message: '网络错误',
+                                type: 'info',
+                                // message: '申请成功',
+                                message: '邮件发送成功，请注意查收',
                                 showClose: true
                             });
+                            self.mtDialogVisible = false;
+                            self.MT4ApplyLoading = false;
+                            self.getMT4ApplyList();
+                        } else if(res.data.retCode == 1){
+                            self.$message({
+                                type: 'info',
+                                // message: '申请成功',
+                                message: '操作成功，请稍后查收邮件',
+                                showClose: true
+                            });
+                            self.mtDialogVisible = false;
+                            self.MT4ApplyLoading = false;
+                            self.getMT4ApplyList();
+                        }else {
+                            self.$message({
+                                type: 'warning',
+                                // message: '申请失败,失败原因:'+res.data.data.errMsg,
+                                message: '操作失败，请稍后再试',
+                                showClose: true
+                            });
+                            self.mtDialogVisible = false;
+                            self.MT4ApplyLoading = false;
                         }
                     }).catch(function (err) {
                         self.$message({
-                            message:'网络错误',
-                            type:'error',
-                            showClose:true
+                            type: 'error',
+                            message: '网络错误',
+                            showClose: true
                         });
+                        self.mtDialogVisible = false;
+                        self.MT4ApplyLoading = false;
                     });
-                    self.mtDialogVisible = false;
-                    self.MT4ApplyLoading = false;
+
                 } else {
                     self.MT4ApplyLoading = false;
                     return false;
@@ -963,6 +1109,28 @@ export default {
             this.inTurnForm.outAccount = '';
             this.inTurnForm.deposit = '';
         },
+        inTurnCount(){
+            const self = this;
+            self.initInTurnForm();
+            this.$ajax({
+                method: 'get',
+                url: '/mt4User/' + self.userId + '/list',
+            }).then(function (res) {
+                if (res.data.retCode == 0) {
+                    const checkList = res.data.data;
+                    const check = [];
+                    check.push("钱包余额");
+                    // console.log(row.mt4UserId);
+                    checkList.forEach(function (item) {
+                        check.push(item.UserLoginID.toString())
+                    });
+                    self.inAccountCheckList = check;
+                    self.outAccountCheckList = check;
+                }
+            }).catch(function (err) {
+            });
+            self.inTurnVisible = true;
+        },
         getBalance(val){
             const self = this;
             self.accountBalance = 0;
@@ -979,6 +1147,8 @@ export default {
                     data: postData,
                     url: '/deposit/mt4'
                 }).then(function (res) {
+                    console.log('这个账户不存在:')
+                    console.log(res)
                     if(res.data.retCode === 0){
                         console.log('转入时获取对应MT4账户的余额');
                         console.log(res.data.data);
@@ -992,27 +1162,6 @@ export default {
                 }).catch(function (err) {
                 })
             }
-        },
-        inTurn(){
-            const self = this;
-            self.initInTurnForm();
-            self.inTurnVisible = true;
-            this.$ajax({
-                method: 'get',
-                url: '/mt4User/' + self.userId + '/list',
-            }).then(function (res) {
-                if (res.data.retCode == 0) {
-                    const checkList = res.data.data;
-                    const check = [];
-                    check.push("钱包余额");
-                    // console.log(row.mt4UserId);
-                    checkList.forEach(function (item) {
-                        check.push(item.UserLoginID.toString())
-                    });
-                    self.accountCheckList = check;
-                }
-            }).catch(function (err) {
-            });
         },
         inTurnConfirm(ref){
             const self = this;
@@ -1037,6 +1186,7 @@ export default {
                                     showClose: true
                                 });
                                 self.resetBalance();
+                                self.getMT4ApplyList();
                                 self.inTurnVisible = false;
                                 self.inTurnLoading = false;
                                 self.initInTurnForm();
@@ -1056,7 +1206,7 @@ export default {
                             });
                             self.inTurnVisible = false;
                             self.inTurnLoading = false;
-                            self.self.initInTurnForm();
+                            self.initInTurnForm();
                         });
                     }else if(self.inTurnForm.outAccount !== '钱包余额' && self.inTurnForm.inAccount === '钱包余额'){
                         const postData = {
@@ -1077,6 +1227,7 @@ export default {
                                     showClose: true
                                 });
                                 self.resetBalance();
+                                self.getMT4ApplyList();
                                 self.inTurnVisible = false;
                                 self.inTurnLoading = false;
                                 self.initInTurnForm();
@@ -1115,6 +1266,7 @@ export default {
         inTurnCancel(){
             this.inTurnVisible = false;
             this.inTurnLoading = false;
+            this.initInTurnForm();
         },
         mt42mt4(val){
             const postData = val;
@@ -1131,7 +1283,8 @@ export default {
                         type: 'info',
                         message: 'MT4账户转入MT4账户成功',
                         showClose: true
-                    })
+                    });
+                    self.getMT4ApplyList();
                 } else {
                     self.$message({
                         type: 'warning',
@@ -1147,74 +1300,15 @@ export default {
                 })
             })
         },
-        getBalance(val){
-            const self = this;
-            if(self.crmToMt4.checkAccount === '钱包余额'){
-                self.crmVisible = true;
-                self.$ajax({
-                    method: 'get',
-                    url: '/deposit/wallet/' + self.$store.state.user.userinfo._id
-                }).then(function (res) {
-                    console.log('转入时获取对应账户的余额');
-                    console.log(res.data);
-                    if(res.data.retCode === 0){
-                        self.crmBalanceRemain = res.data.data.money;
-                        self.crmAccountBalance = self.accounting.formatMoney(res.data.data.money);
-                        self.lockFlag = res.data.data.lockFlag;
-                    }else {
-                        self.$message({
-                            type: 'error',
-                            message: '网络错误',
-                            showClose: true
-                        })
-                    }
-                }).catch(function (err) {
-                    self.$message({
-                        type: 'error',
-                        message: '网络错误',
-                        showClose: true
-                    })
-                });
-            }else {
-                self.crmVisible = false;
-                var postData = {
-                    apId: self.$store.state.domain.domain.domain.apId,
-                    mt4UserId: val
-                };
-                console.log("获取对应MT4帐号余额" , postData);
-                self.$ajax({
-                    method: 'post',
-                    data: postData,
-                    url: '/deposit/mt4'
-                }).then(function (res) {
-                    if(res.data.retCode === 0){
-                        console.log('转入时获取对应MT4账户的余额');
-                        console.log(res.data.data);
-                        // self.mt4AccountBalance = res.data.data;
-                        self.mt4AccountBalance.UserBalance = self.accounting.formatMoney(res.data.data.UserBalance);
-                        self.mt4AccountBalance.UserFreeMargin = self.accounting.formatMoney(res.data.data.UserFreeMargin);
-                        self.mt4AccountBalance.UserEquit = self.accounting.formatMoney(res.data.data.UserEquit);
-                        self.mt4AccountBalance.UserMargin = self.accounting.formatMoney(res.data.data.UserMargin);
-                        self.mt4AccountBalance.money = self.accounting.formatMoney(res.data.data.money);
-                    }else {
-                        self.$message({
-                            type: 'error',
-                            message: '这个账户不存在'
-                        })
-                    }
-                }).catch(function (err) {
-                })
-            }
-        },
         // 刷新钱包余额
         resetBalance(){
             let self = this;
             self.$ajax({
                 method: 'get',
-                url: '/deposit/wallet/' + self.$store.state.user.userinfo._id
+                url: '/deposit/wallet/' + self.userId
             }).then(function (res) {
                 // console.log(res.data.data);
-                self.$store.dispatch('update_balance',{balance:res.data.data});
+                self.$store.dispatch('update_balance',res.data.data);
             }).catch(function (err) {
             });
         },
@@ -1270,6 +1364,10 @@ export default {
 
                 })
             }
+        },
+
+        initNum(val){
+            this.baseInfo.bankCardNumbers = val.replace(/\s/g, '').replace(/[^\d]/g, '').replace(/(\d{4})(?=\d)/g, '$1 ');
         }
 
     },

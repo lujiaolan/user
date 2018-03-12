@@ -1,3 +1,6 @@
+.myInfo .baseListContent .el-tabs {
+    margin-top: 12px;
+}
 .agentContent {
     overflow: hidden;
     margin-top: 22px;
@@ -22,6 +25,7 @@
     margin-right: 3%;
     margin-left: 8px;
     padding-bottom: 3px;
+    margin-bottom: 8px;
 }
 .agentContent > .card-box:nth-child(1) .card-info > div {
     float: left;
@@ -61,8 +65,8 @@
     overflow: hidden;
     box-shadow: 0 0 8px 1px rgba(0,0,0,.12);
     box-sizing: border-box;
-    min-width: 180px;
-    margin-top: 8px;
+    /*min-width: 180px;*/
+    margin-top: 20px;
 }
 
 .box-card:nth-child(1),
@@ -87,6 +91,7 @@
     text-align: center;
     line-height: 30px;
     padding-bottom: 10px;
+    word-break: break-all;
 }
 .box-card .text p:nth-child(1) {
     font-size: 24px;
@@ -134,7 +139,7 @@
     float: left;
 }
 .myInfo .baseListContent .el-tabs__header {
-    border-bottom: none;
+    border-bottom: 1px solid #e1e2e3;
 }
 
 
@@ -209,10 +214,6 @@
     width: 370px;
     height: 177px;
 }
-.mt4Dialog .el-dialog--small {
-
-    width: 30%;
-}
 .myInfo .el-upload {
     display: block;
 }
@@ -233,14 +234,11 @@
 .addAccount {
     position: absolute;
     right: 0;
-    top: 165px;
+    top: 175px;
     z-index: 1;
     color: #3384d2;
     font-size: 16px;
     width: 160px;
-}
-.modifyLevel .el-input{
-    width: 80%;
 }
 
 .balanceStyle span {
@@ -255,4 +253,7 @@
 
 .noBottom.el-form-item {
     margin-bottom: 0;
+}
+.baseListContent .el-select{
+    width: 100%;
 }

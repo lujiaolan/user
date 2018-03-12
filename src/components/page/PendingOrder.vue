@@ -1,6 +1,6 @@
 <template>
     <div class="position">
-        <div class="title-card">
+        <div class="title-card boxShadow">
             <div class="title-info-card width5">
                 <p>US {{ countData.UserBalance }}</p>
                 <p class="title-info-name">余额</p>
@@ -26,8 +26,19 @@
             <el-tabs v-model="activeName" style="margin-bottom: 60px">
                 <el-tab-pane label="当前挂单" name="pendingOrder">
                     <div class="recordSelect">
-                        <el-input placeholder="交易账户" class="orderSelect" v-model="mt4UserId"></el-input>
-                        <el-button @click="searchPendingOrder">搜索</el-button>
+                        <el-form>
+                            <el-row>
+                                <el-form-item>
+                                    <span>交易账户</span>
+                                </el-form-item>
+                                <el-form-item>
+                                    <el-input v-model="mt4UserId" class="orderSelect"></el-input>
+                                </el-form-item>
+                                <el-form-item>
+                                    <el-button @click="searchPendingOrder">搜索</el-button>
+                                </el-form-item>
+                            </el-row>
+                        </el-form>
                     </div>
                     <el-table :data="pendingOrderData" style="width: 100%" :show-summary="true"
                               :summary-method="getSummaries">
@@ -89,7 +100,7 @@
 </template>
 
 <script>
-   module.exports = require('../pageJS/pendingOrder')
+   module.exports = require('../pageJS/PendingOrder')
 </script>
 <style>
     @import "../../../static/css/orderCenter.css";

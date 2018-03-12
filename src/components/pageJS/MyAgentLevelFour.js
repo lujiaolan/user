@@ -26,19 +26,19 @@ export default {
             };
             console.log(postData)
             const self = this;
-            this.$ajax({
-                method:'post',
-                url:'/user/noPage/agent',
-                data:postData
-            }).then(function (res) {
-                if(res.data.retCode==0){
-                    console.log('levelFour')
-                    console.log(res)
-                    self.levelFiveInfo = res.data.data;
-                }
-            }).catch(function (err) {
-
-            })
+            // this.$ajax({
+            //     method:'post',
+            //     url:'/user/noPage/agent',
+            //     data:postData
+            // }).then(function (res) {
+            //     if(res.data.retCode==0){
+            //         console.log('levelFour')
+            //         console.log(res)
+            //         self.levelFiveInfo = res.data.data;
+            //     }
+            // }).catch(function (err) {
+            //
+            // })
         }
     },
     mounted(){

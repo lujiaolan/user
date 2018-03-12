@@ -62,12 +62,12 @@
                         </el-form-item>
                         <el-form-item prop="password">
                             <label class="label-point"><i></i>密码</label>
-                            <el-input v-model="agentAccountForm.password"
+                            <el-input v-model="agentAccountForm.password" type="password"
                                       @key.native.enter="agentAccountRegister('agentAccountForm')" placeholder="请输入密码"></el-input>
                         </el-form-item>
                         <el-form-item prop="confirmPwd">
                             <label class="label-point"><i></i>确认密码</label>
-                            <el-input v-model="agentAccountForm.confirmPwd"
+                            <el-input v-model="agentAccountForm.confirmPwd" type="password"
                                       @key.native.enter="agentAccountRegister('agentAccountForm')" placeholder="再次确认密码"></el-input>
                         </el-form-item>
                         <el-checkbox-group v-model="agentAccountForm.checkDeal" @change="agentAccountDeal" class="confirm">

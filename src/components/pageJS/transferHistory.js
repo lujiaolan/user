@@ -5,6 +5,7 @@ export default {
     data:function () {
         return {
             transActiveName: 'transComplete',
+            editableDate:false,
             datePickerVisible: true,
             recordSelect: {
                 transCompValue: '近1天',

@@ -6,6 +6,7 @@ export default {
     data(){
         return {
             activeName2: 'teamCount',
+            editableDate:false,
             rebackInfo:{
                 userId:'',
                 role:'',
@@ -40,6 +41,11 @@ export default {
                 startTime: '',
                 endTime: '',
                 agentNameLike: ''
+            },
+            positionCountForm:{
+                MT4UserId:'',
+                startTime:'',
+                endTime:'',
             },
             totalTotalTeam:null,
             teamCountData: [],
@@ -104,18 +110,18 @@ export default {
                 agentNameLike: ''
             };
             console.log(postData);
-            this.$ajax({
-                method:'post',
-                url:'/user/noPage/agent',
-                data:postData
-            }).then(function (res) {
-                if(res.data.retCode==0){
-                    console.log('levelThreeInfo')
-                    self.levelThreeInfo = res.data.data;
-                }
-            }).catch(function (err) {
-
-            })
+            // this.$ajax({
+            //     method:'post',
+            //     url:'/user/noPage/agent',
+            //     data:postData
+            // }).then(function (res) {
+            //     if(res.data.retCode==0){
+            //         console.log('levelThreeInfo')
+            //         self.levelThreeInfo = res.data.data;
+            //     }
+            // }).catch(function (err) {
+            //
+            // })
         },
         searchTeamInfo(ref){
             this.$refs[ref].validate((valid)=>{
@@ -137,26 +143,26 @@ export default {
     },
         getTeamInfo(){
             const self = this;
-            this.$ajax({
-                method:'post',
-                url:'/user/noPage/agent',
-                data:self.totalTeam
-            }).then(function (res) {
-                if(res.data.retCode==0){
-                    console.log(res)
-                    self.teamCountData = res.data.data;
-                    self.teamCountData.forEach(function (item,index) {
-                       self.teamCountData[index].totalDeposit = self.accounting.formatMoney(item.totalDeposit,'',2,',','.');
-                       self.teamCountData[index].totalWithdraw = self.accounting.formatMoney(item.totalWithdraw,'',2,',','.');
-                       self.teamCountData[index].totalCommisssion = self.accounting.formatMoney(item.totalCommisssion,'',2,',','.');
-                       self.teamCountData[index].totalTradeAmount = self.accounting.formatMoney(item.totalTradeAmount,'',2,',','.');
-                       self.teamCountData[index].totalProfitAmount = self.accounting.formatMoney(item.totalProfitAmount,'',2,',','.');
-                    });
-                    self.totalTotalTeam = res.data.data.totalAmount;
-                }
-            }).catch(function (err) {
-
-            })
+            // this.$ajax({
+            //     method:'post',
+            //     url:'/user/noPage/agent',
+            //     data:self.totalTeam
+            // }).then(function (res) {
+            //     if(res.data.retCode==0){
+            //         console.log(res)
+            //         self.teamCountData = res.data.data;
+            //         self.teamCountData.forEach(function (item,index) {
+            //            self.teamCountData[index].totalDeposit = self.accounting.formatMoney(item.totalDeposit,'',2,',','.');
+            //            self.teamCountData[index].totalWithdraw = self.accounting.formatMoney(item.totalWithdraw,'',2,',','.');
+            //            self.teamCountData[index].totalCommisssion = self.accounting.formatMoney(item.totalCommisssion,'',2,',','.');
+            //            self.teamCountData[index].totalTradeAmount = self.accounting.formatMoney(item.totalTradeAmount,'',2,',','.');
+            //            self.teamCountData[index].totalProfitAmount = self.accounting.formatMoney(item.totalProfitAmount,'',2,',','.');
+            //         });
+            //         self.totalTotalTeam = res.data.data.totalAmount;
+            //     }
+            // }).catch(function (err) {
+            //
+            // })
         },
         agentDetails(row){
             console.log("row")

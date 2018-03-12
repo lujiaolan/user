@@ -4,6 +4,9 @@
 export default {
     data(){
         return {
+            // DrawUpload: this.$store.state.baseUrl + '/crm/ap/img/upload',
+            bankCardHeadPicUpload: 'http://120.77.234.9:8080/crm/aider/oss/udeacrm/bankCardHeadPic'+ this.$store.state.user.userinfo._id + new Date().getTime() + '?dir=ap-logo/&contentType=image/jpeg',
+            bankCardTailPicUpload: 'http://120.77.234.9:8080/crm/aider/oss/udeacrm/bankCardTailPic'+ this.$store.state.user.userinfo._id + new Date().getTime() + '?dir=ap-logo/&contentType=image/jpeg',
             titleAddbank:'新增银行卡',
             bankAddOrEdit:'',
             BankimageUrl:{
@@ -17,7 +20,6 @@ export default {
                 bankCardStatus:'',
                 bankBranch:'',
                 bankCardNumbers:'',
-                bankAddress:'',
                 bankCardTailPic:'',
                 bankCardHeadPic:'',
             },
@@ -55,11 +57,6 @@ export default {
                 bankCardNumbers:[{
                     required:true,
                     message:'请填写银行卡号',
-                    trigger:'blur'
-                }],
-                bankAddress:[{
-                    required:true,
-                    message:'请填写银行卡地址',
                     trigger:'blur'
                 }],
                 bankCardHeadPic:[{
@@ -188,7 +185,6 @@ export default {
                 bankCardStatus:'',
                 bankBranch:'',
                 bankCardNumbers:'',
-                bankAddress:'',
                 bankCardTailPic:'',
                 bankCardHeadPic:'',
             }
@@ -277,7 +273,7 @@ export default {
                         if(res.data.retCode==0){
                             self.$message({
                                 type:"info",
-                                message:'提交成功,请等待审核',
+                                message:'提交出金申请成功，请等待审核',
                                 showClose:true
                             });
                             self.$refs[ref].resetFields();
@@ -320,7 +316,7 @@ export default {
                             type:'warning',
                             showClose:true
                         });
-                        self.$router.push('/MyAgentInfo')
+                        self.$router.push('/accountManagement/myInfo')
                     }else if(comfirmStatus=='2'){
                         self.$message({
                             message:'您的资料未通过,通过才能增加银行卡',
@@ -372,10 +368,10 @@ export default {
         },
         addBankHeadSuccess(res,files){
             this.BankimageUrl.BHimg = files.url;
-            this.bankConfigData.bankCardHeadPic = files.response.data.fileName;
+            this.bankConfigData.bankCardHeadPic = res.data;
         },
         addBankTailSuccess(res,files){
-            this.bankConfigData.bankCardTailPic = files.response.data.fileName;
+            this.bankConfigData.bankCardTailPic = res.data;
             this.BankimageUrl.BTimg = files.url;
         },
         changeSelectBank(res){
@@ -386,7 +382,6 @@ export default {
                     self.drawForm.bankName  = this.bankInfo[i].bankName;
                     self.drawForm.bankCardNo  = this.bankInfo[i].bankCardNumbers;
                     self.drawForm.IDName  = this.bankInfo[i].cardHolder;
-                    self.drawForm.bankOpen  = this.bankInfo[i].bankAddress;
                     self.drawForm.bankCardStatus  = this.bankInfo[i].bankCardStatus;
                     self.drawForm.bankCardTailPic  = this.bankInfo[i].bankCardTailPic;
                     self.drawForm.bankCardHeadPic  = this.bankInfo[i].bankCardHeadPic;
@@ -404,7 +399,6 @@ export default {
                 bankCardStatus:'',
                 bankBranch:'',
                 bankCardNumbers:'',
-                bankAddress:'',
                 bankCardTailPic:'',
                 bankCardHeadPic:'',
             }
@@ -418,10 +412,9 @@ export default {
                             bankName:this.bankConfigData.bankName,
                             bankCardType:this.bankConfigData.bankCardType,
                             bankBranch:this.bankConfigData.bankBranch,
-                            bankAddress:this.bankConfigData.bankAddress,
                             cardHolder:this.bankConfigData.cardHolder,
                             bankSort:this.bankConfigData.bankSort,
-                            bankCardStatus:0,
+                            bankCardStatus:-1,
                             bankCardHeadPic:this.bankConfigData.bankCardHeadPic,
                             bankCardTailPic:this.bankConfigData.bankCardTailPic,
                             bankCardNumbers:this.bankConfigData.bankCardNumbers,
@@ -483,8 +476,7 @@ export default {
                                     bankAccountName:this.bankConfigData.bankAccountName,
                                     bankBranch:this.bankConfigData.bankBranch,
                                     bankCardNumbers:this.bankConfigData.bankCardNumbers,
-                                    bankAddress:this.bankConfigData.bankAddress,
-                                    bankCardStatus:0,
+                                    bankCardStatus:-1,
                                     bankCardTailPic:this.bankConfigData.bankCardTailPic,
                                     bankCardHeadPic:this.bankConfigData.bankCardHeadPic,
                                     cardHolder:this.bankConfigData.cardHolder,
@@ -571,7 +563,16 @@ export default {
                     if(res.data.data.data[0].bankCard.length>0){
                         self.bankCardTotal = res.data.data.data[0].bankCard.length;
                     }
+                    self.bankInfo.forEach(function (item,index) {
+                        if(item.bankCardStatus === 1){
+                            self.bankInfo[index].bgBule = true
+                        }else {
+                            self.bankInfo[index].bgBule = false
+                        }
+                    })
                 }
+                console.log('self.bankInfo');
+                console.log(self.bankInfo);
             }).catch(function (err) {
 
             })
@@ -585,10 +586,16 @@ export default {
                 if(res.data.retCode==0){
                     console.log('dollarMoney')
                     console.log(res)
-                    if(res.data.data.withdrawConfig.withdrawRateAdjust==null||res.data.data.withdrawConfig.withdrawRateAdjust==undefined){
-                        self.drawForm.currentRate = res.data.data.withdrawConfig.withdrawReplaceRate;
+                    if(res.data.data.withdrawConfig){
+                        if(res.data.data.withdrawConfig.withdrawRateAdjust==null||res.data.data.withdrawConfig.withdrawRateAdjust==undefined){
+                            self.drawForm.currentRate = res.data.data.withdrawConfig.withdrawReplaceRate;
+                        }else if( res.data.data.withdrawConfig.withdrawReplaceRate==null||res.data.data.withdrawConfig.withdrawRateAdjust==undefined){
+                            self.drawForm.currentRate = res.data.data.withdrawConfig.withdrawRateAdjust;
+                        }else{
+                            self.drawForm.currentRate = res.data.data.withdrawConfig.withdrawFixedRate;
+                        }
                     }else{
-                        self.drawForm.currentRate = res.data.data.withdrawConfig.withdrawRateAdjust;
+                        self.drawForm.currentRate = null;
                     }
 
                 }

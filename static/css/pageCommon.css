@@ -1,3 +1,31 @@
+/*pagination start*/
+.content .el-pagination {
+    text-align: center;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+.content .el-pager li.active {
+    background-color: #3384d2;
+    border-color: #3384d2;
+}
+.content .el-pager li.active:hover {
+    color: #fff;
+}
+.content .el-pager li:hover {
+    color: #3384d2;
+}
+/*pagination end*/
+
+/*input start*/
+.content .el-input__inner,
+.content .el-input.is-disabled .el-input__inner {
+    color: #999;
+    background-color: #f3f9ff;
+    border: none;
+    padding-left: 20px;
+}
+/*input end*/
+
 /*卡片统一阴影 start*/
 .boxShadow {
     box-shadow: 0 0 8px 1px rgba(0,0,0,.12);
@@ -5,7 +33,29 @@
 }
 /*卡片统一阴影 end*/
 
+/*dialog start*/
+.dialogInit .el-dialog {
+    width: 400px;
+    border-radius: 8px;
+}
+.dialogInit.applyMt4 .el-dialog {
+    width: 700px;
+}
+.dialogInit .el-dialog__body {
+    padding-right: 40px;
+    padding-left: 0;
+}
+.dialogInit .el-dialog .el-select {
+    width: 100%;
+}
+/*dialog end*/
+
+
 /*按钮样式统一 start*/
+.content .el-button {
+    border-radius: 8px;
+}
+
 .content .el-button:focus,
 .content .el-button:hover {
     border-color: #3384d2;
@@ -18,21 +68,33 @@
     border-color: #3384d2;
     color: #fff;
 }
+.content .smallGrayBtn.el-button--small {
+    background-color: #ccc;
+    color: #fff;
+    float: right;
+}
+.content .el-button--small {
+    width: 80px;
+    height: 30px;
+}
 /*按钮样式统一 end*/
 
 /*首页图表样式 start*/
 .chart-wrap {
     /*width: 100%;*/
     height: 260px;
-    margin-top: 22px;
+    margin-top: 28px;
     padding: 20px;
+}
+.chart-wrap.chart-one {
+    margin-top: 20px;
 }
 /*首页图表样式 end*/
 
 /*页面顶部显示信息的卡片样式 start*/
 .title-card {
     overflow: auto;
-    margin-top: 8px;
+    margin-top: 20px;
     padding: 20px;
 }
 .title-info-card.width3 {
@@ -83,14 +145,13 @@
 .infoList-title {
     height: 50px;
     line-height: 50px;
-    background-color: #000;
     padding: 0 20px;
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
     text-align: left;
-    color: #fff;
-    font-size: 18px;
-    font-weight: bold;
+    color: #3384d2;
+    font-size: 16px;
+    border-bottom: 1px solid #e1e2e3;
 }
 /*每个信息框的标题统一样式 end*/
 /*不同颜色的按钮 start*/
@@ -174,27 +235,26 @@
 }
 /*基础表格样式 end*/
 /*基础操作表格卡片样式 start*/
+.baseTableContent.width100 {
+    width: 100%;
+}
 .baseTableContent {
     float: left;
-    width: 30%;
+    width: 49%;
     color: #666;
-    background-color: #fafafa;
     margin-bottom: 50px;
-    min-width: 345px;
-    max-width: 450px;
-}
-.baseTableContent.width450 {
-    width: 450px;
+    /*min-width: 345px;*/
+    box-shadow: 0 0 8px 1px rgba(0,0,0,.12);
+    margin-top: 20px;
 }
 .baseTableContent:nth-child(1),
 .baseTableContent:nth-child(2) {
-    margin-right: 5%;
+    margin-right: 2%;
 }
 .baseTableContent .el-form {
     display: block;
-    width: 85.5%;
-    margin: 50px auto 0;
-    padding-bottom: 11%;
+    max-width: 420px;
+    margin: 40px auto ;
 }
 
 .baseTableContent .el-form-item:last-child {
@@ -202,42 +262,8 @@
     margin-bottom: 0;
 }
 
-.baseTableContent .el-form-item__content {
-    position: relative;
-    margin: 0!important;
-    padding-left: 4%;
-    background-color: #ececec;
-    border-radius: 4px;
-    height: 50px;
-    line-height: 50px;
-    font-size: 16px;
-}
-.baseTableContent .el-form-item__content > .el-input,
-.baseTableContent .el-select {
-    width: 100%;
-    display: block;
-    top: 0;
-    left: 0;
-    position: absolute;
-    font-size: 16px;
-    font-weight: bold;
-}
-
-.baseTableContent .el-input__inner {
-    height: 50px;
-    line-height: 50px;
-    padding: 0 0 0 40%;
-    background-color: rgba(0,0,0,0);
-}
-
-.baseTableContent .el-select .el-input__inner {
-    font-size: 16px;
-}
-
 .baseTableContent .el-input.is-disabled .el-input__inner {
-    background-color: rgba(0,0,0,0);
     color: #666;
-    border-color: #bfcbd9;
 }
 
 .baseTableContent .el-form-item:last-child .el-form-item__content {
@@ -246,12 +272,9 @@
 
 .baseTableContent .el-form .el-button {
     width: 100%;
-    height: 50px;
-    line-height: 50px;
+    height: 48px;
+    line-height: 48px;
     padding: 0;
-    background-color: black;
-    border-color: #000;
-    font-size: 18px;
 }
 .baseTableContent .el-form .moneyTag {
     font-size: 14px;
@@ -293,37 +316,30 @@
 }
 /*基础操作表格卡片样式 end*/
 
-/*baseListContent 和 baseList-content 相同样式 start*/
+/*baseListContent start*/
 .baseListContent .el-table,
 .baseListContent .el-table td,
-.baseListContent .el-table th.is-leaf,
-.baseList-content .el-table,
-.baseList-content .el-table td,
-.baseList-content .el-table th.is-leaf {
+.baseListContent .el-table th.is-leaf {
     border: none;
     color: #666;
     font-weight: normal;
     font-size: 14px;
     text-align: center;
 }
-.baseListContent .el-table::after,
-.baseList-content .el-table::after {
+.baseListContent .el-table::after {
     width: 0;
 }
-.baseListContent .el-table th > .cell,
-.baseList-content .el-table th > .cell {
+.baseListContent .el-table th > .cell {
     /*font-weight: bold;*/
 }
-.baseListContent .el-table__body-wrapper,
-.baseList-content .el-table__body-wrapper {
+.baseListContent .el-table__body-wrapper {
     margin: 10px 0;
 }
-.baseListContent .el-table .cell,
-.baseList-content .el-table .cell {
+.baseListContent .el-table .cell {
     line-height: 50px;
     color: #999;
 }
-/*baseListContent 和 baseList-content 相同样式 end*/
+/*baseListContent end*/
 
 /*基础列表显示查询样式(可切换tab) start*/
 .baseListContent {
@@ -331,14 +347,15 @@
 }
 .baseListContent .el-tabs {
     width: 100%;
-    margin-left: -2%;
     position: absolute;
     top: 0;
     right: 0;
-    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .12), 0 0 6px 0 rgba(0, 0, 0, .04);
+    box-shadow: 0 0 8px 1px rgba(0,0,0,.12);
+    margin-top: 20px;
 }
 .baseListContent .el-tabs__header {
     margin: 0;
+    border-bottom: 1px solid #e1e2e3;
 }
 .baseListContent .el-table__header-wrapper {
     line-height: 50px;
@@ -360,19 +377,31 @@
 .baseListContent .el-tabs__content {
     color: #666;
 }
-.baseListContent .el-tabs__nav {
-    float: right;
-}
 .baseListContent .recordSelect {
-    line-height: 50px;
-    margin: 10px 0;
-    padding-left: 1%;
-    font-size: 16px;
     font-weight: normal;
+    border-bottom: 1px solid #e1e2e3;
 }
 .recordSelect .el-form-item {
     float: left;
     margin-right: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+.recordSelect .el-form-item.labelItem {
+    margin-left: 20px;
+}
+.recordSelect .el-form-item:nth-child(1) {
+    margin-left: 30px;
+}
+.content .recordSelect .el-input__inner {
+    background-color: #fff;
+    border: 1px solid #c3c3c3;
+}
+.baseListContent .selectBtn.el-button {
+    margin-left: 20px;
+    background-color: #e7e7e7;
+    color: #666;
+    border-color: #e7e7e7;
 }
 .baseListContent .recordSelect > span {
     padding-right: 10px;
@@ -384,7 +413,6 @@
     color: #666;
 }
 .baseListContent .el-table__header {
-    border-top: 1px solid #d7d7d7;
     border-bottom: 1px solid #d7d7d7;
 }
 .baseListContent .el-tabs__item:hover {
@@ -392,36 +420,3 @@
 }
 /*基础列表显示查询样式(可切换tab) end*/
 
-/*基础列表显示信息样式 start*/
-.baseList-content {
-    margin-top: 40px;
-    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .12);
-}
-.baseList-content .el-table {
-    border-top-right-radius: 8px;
-    border-top-left-radius: 8px;
-}
-.baseList-content .el-table th > .cell {
-    background-color: #000!important;
-    color: #fff;
-    height: 50px;
-}
-/*基础列表显示信息样式 end*/
-
-/*transferHistory start*/
-.baseListContent.transH .el-tabs__item.is-active {
-    background-color: #000;
-    color: #000;
-}
-.baseListContent.transH .el-tabs {
-    margin-bottom: 50px;
-}
-.orderNum.el-input {
-    width: 200px;
-}
-.block > .el-pagination {
-    display: inline-block;
-    margin: 25px 50% 0;
-    transform: translateX(-50%);
-}
-/*transferHistory end*/

@@ -5,7 +5,7 @@ export default {
     data:function () {
         return {
             activeName: 'orderRecord',
-
+            editableDate:false,
             orderSelect: {
                 mt4UserId: '',
                 orderRecordValue: '近1天',
@@ -207,8 +207,8 @@ export default {
                 postData.query.TradeSymbol = self.orderSelect.transCurrency;
             }
             if(self.orderSelect.orderRecordValue === '自定义时间'){
-                postData.query.startTime = ((new Date(self.moment(self.orderSelect.orderRecordDate0).format('YYYY/MM/DD'))).getTime())/1000;
-                postData.query.endTime = ((new Date(self.moment(self.orderSelect.orderRecordDate1).format('YYYY/MM/DD'))).getTime())/1000;
+                postData.query.startTime = this.moment(self.orderSelect.orderRecordDate0).format('YYYY-MM-DD 00:00:00');
+                postData.query.endTime = this.moment(self.orderSelect.orderRecordDate1).format('YYYY-MM-DD 23:59:59');
                 delete postData.query.recent;
             }
             self.$ajax({

@@ -25,7 +25,7 @@
                     <!--<i class="fa fa-pencil" @click="openEmail"></i>-->
                 </div>
                 <div class="text">
-                    <p>{{ baseInfo.userEmail }}</p>
+                    <p>{{  $store.state.user.userinfo.userEmail }}</p>
                     <p>电子邮箱</p>
                 </div>
             </div>
@@ -35,7 +35,7 @@
                     <!--<i class="fa fa-pencil" @click="openPhone"></i>-->
                 </div>
                 <div class="text">
-                    <p>{{ baseInfo.userPhone }}</p>
+                    <p>{{  $store.state.user.userinfo.userPhone }}</p>
                     <p>手机号码</p>
                 </div>
             </div>
@@ -52,7 +52,8 @@
                                     <el-input v-model="baseInfo.country"  @key.native.enter="onSubmitMyInfo('baseInfo')" :disabled="isDisabled"></el-input>
                                 </el-form-item>
                                 <el-form-item label="生日" class="item" prop="birthDay">
-                                    <el-date-picker type="date" placeholder="选择出生日期"  v-model="baseInfo.birthDay" class="pickerDate"
+                                    <el-date-picker type="date" placeholder="选择出生日期"
+                                                    :editable="editableDate" v-model="baseInfo.birthDay" class="pickerDate"
                                                     @key.native.enter="onSubmitMyInfo('baseInfo')" :disabled="isDisabled"></el-date-picker>
                                 </el-form-item>
                                 <el-form-item label="证件号码" class="item" prop="IDNumber">
@@ -63,11 +64,12 @@
                                 <el-form-item label="英文名" class="item" prop="userEngName">
                                     <el-input v-model="baseInfo.userEngName" :disabled="isDisabled"></el-input>
                                 </el-form-item>
-                                <el-form-item label="城市" class="item" prop="addressSecond">
-                                    <el-input v-model="baseInfo.addressSecond"  @key.native.enter="onSubmitMyInfo('baseInfo')" :disabled="isDisabled"></el-input>
+                                <el-form-item label="省份" class="item" prop="addressOne">
+                                    <el-input v-model="baseInfo.addressOne"@key.native.enter="onSubmitMyInfo('baseInfo')" :disabled="isDisabled"></el-input>
                                 </el-form-item>
+
                                 <el-form-item label="持卡人" class="item" prop="cardHolder">
-                                    <el-input v-model="baseInfo.cardHolder"  @key.native.enter="onSubmitMyInfo('baseInfo')" disabled=""></el-input>
+                                    <el-input v-model="baseInfo.cardHolder"  @key.native.enter="onSubmitMyInfo('baseInfo')" disabled></el-input>
                                 </el-form-item>
                                 <el-form-item label="开户行" class="item" prop="bankName">
                                     <el-input v-model="baseInfo.bankName"
@@ -79,8 +81,8 @@
                                 <el-form-item label="拼音" class="item" prop="spell">
                                     <el-input v-model="baseInfo.spell"  @key.native.enter="onSubmitMyInfo('baseInfo')" :disabled="isDisabled"></el-input>
                                 </el-form-item>
-                                <el-form-item label="省份" class="item" prop="addressOne">
-                                    <el-input v-model="baseInfo.addressOne"@key.native.enter="onSubmitMyInfo('baseInfo')" :disabled="isDisabled"></el-input>
+                                <el-form-item label="城市" class="item" prop="addressSecond">
+                                    <el-input v-model="baseInfo.addressSecond"  @key.native.enter="onSubmitMyInfo('baseInfo')" :disabled="isDisabled"></el-input>
                                 </el-form-item>
                                 <el-form-item label="手机" class="item" prop="userPhone">
                                     <el-input v-model="baseInfo.userPhone"  @key.native.enter="onSubmitMyInfo('baseInfo')" :disabled="isDisabled"></el-input>
@@ -92,7 +94,10 @@
                             </el-row>
                             <el-row>
                                 <el-form-item label="性别" class="item" prop="sex">
-                                    <el-input v-model="baseInfo.sex"  @key.native.enter="onSubmitMyInfo('baseInfo')" :disabled="isDisabled"></el-input>
+                                    <el-select v-model="baseInfo.sex"  @key.native.enter="onSubmitMyInfo('baseInfo')" :disabled="isDisabled">
+                                        <el-option value="男">男</el-option>
+                                        <el-option value="女">女</el-option>
+                                    </el-select>
                                 </el-form-item>
                                 <el-form-item label="联系地址" class="item" prop="addressDetail">
                                     <el-input v-model="baseInfo.addressDetail"
@@ -102,10 +107,10 @@
 
                                 <el-form-item label="邮箱" class="item" prop="userEmail">
                                     <el-input v-model="baseInfo.userEmail"
-                                              @key.native.enter="onSubmitMyInfo('baseInfo')" :disabled="isDisabled"></el-input>
+                                              @key.native.enter="onSubmitMyInfo('baseInfo')" disabled></el-input>
                                 </el-form-item>
                                 <el-form-item label="银行卡号" class="item" prop="bankCardNumbers">
-                                    <el-input v-model="baseInfo.bankCardNumbers"  @key.native.enter="onSubmitMyInfo('baseInfo')" :disabled="isDisabled"></el-input>
+                                    <el-input v-model="baseInfo.bankCardNumbers"  @key.native.enter="onSubmitMyInfo('baseInfo')" :disabled="isDisabled" @change="initNum"></el-input>
                                 </el-form-item>
                             </el-row>
                             <div class="updateImg">
@@ -121,7 +126,7 @@
                                             :disabled="isDisabled"
                                             :before-upload="handleInfoUpload"
                                             :on-success="handleIHSuccessPic"
-                                            action="http://120.77.55.98/crm/ap/img/upload"
+                                            :action="IDCardHeadPicUpload"
                                             multiple
                                             :show-file-list="false">
                                             <i class="el-icon-upload" v-if="!imageUrl.IHimg"></i>
@@ -143,7 +148,7 @@
                                             :limit="1"
                                             :before-upload="handleInfoUpload"
                                             :on-success="handleITSuccessPic"
-                                            action="http://120.77.55.98/crm/ap/img/upload"
+                                            :action="IDCardTailPicUpload"
                                             multiple
                                             :show-file-list="false">
                                             <i class="el-icon-upload" v-if="!imageUrl.ITimg"></i>
@@ -165,7 +170,7 @@
                                             :limit="1"
                                             :before-upload="handleInfoUpload"
                                             :on-success="handleBHSuccessPic"
-                                            action="http://120.77.55.98/crm/ap/img/upload"
+                                            :action="bankCardHeadPicUpload"
                                             :show-file-list="false">
                                             <i class="el-icon-upload" v-if="!imageUrl.BHimg"></i>
                                             <img v-if="imageUrl.BHimg" :src="imageUrl.BHimg" class="avatar">
@@ -186,7 +191,7 @@
                                             :limit="1"
                                             :before-upload="handleInfoUpload"
                                             :on-success="handleBTSuccessPic"
-                                            action="http://120.77.55.98/crm/ap/img/upload"
+                                            :action="bankCardTailPicUpload"
                                             multiple
                                             :show-file-list="false">
                                             <i class="el-icon-upload" v-if="!imageUrl.BTimg"></i>
@@ -198,7 +203,7 @@
                                 </div>
                             </div>
                             <el-form-item class="item-btn">
-                                <el-button type="primary" @click="onChangeInfo" v-if="onchangeInfoShow">修改信息</el-button>
+                                <el-button @click="onChangeInfo" v-if="onchangeInfoShow">修改信息</el-button>
                                 <el-button @click="onchangeCancel" v-if="!isDisabled">取消修改</el-button>
                                 <el-button type="primary" @click="onSubmitMyInfo('baseInfo')" v-if="!isDisabled">提交信息</el-button>
                             </el-form-item>
@@ -209,7 +214,7 @@
                         <el-table :data="myAllAccount" style="width: 100%">
                             <el-table-column prop="UserLoginID" label="MT4账户">
                             </el-table-column>
-                            <el-table-column prop="UserLerverage" label="杠杆">
+                            <el-table-column prop="UserLeverage" label="杠杆">
                             </el-table-column>
                             <el-table-column prop="UserBalance" label="余额"></el-table-column>
                             <!--<el-table-column label="货币类型">-->
@@ -240,18 +245,18 @@
                                     <el-button size="small" class="yellow-button"
                                                @click="changeLever(scope.row)">修改杠杆</el-button>
                                     <el-button size="small" class="red-button"
-                                               @click="inTurn(scope.row)">资金内转</el-button>
+                                               @click="inTurnCount(scope.row)">资金内转</el-button>
                                 </template>
                             </el-table-column>
                         </el-table>
                     </el-tab-pane>
                 </el-tabs>
             </div>
-            <el-dialog title="资金转账" :visible.sync="inTurnVisible" size="tiny" :before-close="closeDialog">
+            <el-dialog title="资金转账" :visible.sync="inTurnVisible" class="dialogInit" :before-close="inTurnCancel">
                 <el-form :model="inTurnForm" label-width="100px" ref="inTurnForm" :rules="inTurnForm_rules">
                     <el-form-item prop="outAccount" label="转出账户">
-                        <el-select v-model="inTurnForm.outAccount" @change="getBalance">
-                            <el-option :value="item" :key="item" :label="item" v-for="item in accountCheckList"></el-option>
+                        <el-select v-model="inTurnForm.outAccount" @key.native.enter="inTurnConfirm('inTurnForm')">
+                            <el-option :value="item" :key="item" :label="item" v-for="item in outAccountCheckList"></el-option>
                         </el-select>
                     </el-form-item>
                     <el-form-item label="账户余额">
@@ -259,22 +264,22 @@
                     </el-form-item>
                     <el-form-item prop="inAccount" label="转入账户">
                         <el-select v-model="inTurnForm.inAccount">
-                            <el-option :value="item" :key="item" :label="item" v-for="item in accountCheckList"></el-option>
+                            <el-option :value="item" :key="item" :label="item" v-for="item in inAccountCheckList"></el-option>
                         </el-select>
                     </el-form-item>
                     <el-form-item prop="deposit" label="转入金额">
-                        <el-input v-model="inTurnForm.deposit" @key.native.enter="inTurnConfirm('crmToMt4')" style="width: 217px"></el-input>
+                        <el-input v-model="inTurnForm.deposit" @key.native.enter="inTurnConfirm('inTurnForm')"></el-input>
                     </el-form-item>
                     <el-form-item>
-                        <el-button type="info" @click="inTurnConfirm('inTurnForm')"
+                        <el-button size="small" type="primary" @click="inTurnConfirm('inTurnForm')"
                                    v-loading="inTurnLoading"
                                    element-loading-spinner="el-icon-loading"
                                    element-loading-background="rgba(0, 0, 0, 0.8)" :disabled="inTurnLoading">确认</el-button>
-                        <el-button @click="inTurnCancel">取消</el-button>
+                        <el-button size="small" class="smallGrayBtn" @click="inTurnCancel">取消</el-button>
                     </el-form-item>
                 </el-form>
             </el-dialog  >
-            <el-dialog title="修改密码" :visible.sync="visibleResetPwd" size="tiny" :before-close="closeDialog">
+            <el-dialog title="修改密码" :visible.sync="visibleResetPwd" class="dialogInit" :before-close="closeDialog">
                 <el-form :model="resetPwdForm" label-width="80px" :rules="resetPWd_rules" ref="resetPwdForm">
                     <el-form-item label="账户" prop="UserLoginID">
                         <el-input v-model="resetPwdForm.UserLoginID" disabled=""></el-input>
@@ -289,46 +294,88 @@
                         </el-radio-group>
                     </el-form-item>
                     <el-form-item>
-                        <el-button type="primary" @click="resetUserPwd('resetPwdForm')">确认修改</el-button>
-                        <el-button type="" @click="visibleResetPwd=false">取消</el-button>
+                        <el-button size="small" type="primary" @click="resetUserPwd('resetPwdForm')">确认修改</el-button>
+                        <el-button size="small" class="smallGrayBtn" @click="visibleResetPwd=false">取消</el-button>
                     </el-form-item>
                 </el-form>
             </el-dialog>
-            <el-dialog title="修改杠杆" :visible.sync="modifyLevelVisible" size="tiny" class="modifyLevel" :before-close="closeDialog">
-                <el-form :model="modifyLevel" label-width="50px" ref="modifyLevel" :rules="modifyLevelRules">
+            <el-dialog title="修改杠杆" :visible.sync="modifyLevelVisible" class="dialogInit" :before-close="closeDialog">
+                <el-form :model="modifyLevel" label-width="80px" ref="modifyLevel" :rules="modifyLevelRules">
                     <el-form-item label="账户" prop="mt4UserId">
                         <el-input v-model="modifyLevel.UserLoginID" disabled=""></el-input>
                     </el-form-item>
                     <el-form-item label="杠杆" prop="UserLeverage">
                         <el-select v-model="modifyLevel.UserLeverage">
-                            <el-option v-for="level in levelList" :key="level.value" :label="level.label" :value="level.value"></el-option>
+                            <el-option v-for="level in levelList" :key="level" :label="'1:'+level" :value="level"></el-option>
                         </el-select>
                     </el-form-item>
                     <el-form-item class="noBottom">
-                        <el-button type="info" @click="checkModifyLevel('modifyLevel')" :disabled="changeLeverVisible">修改杠杆</el-button>
-                        <el-button type="" @click="cancelModifyLevel">取消</el-button>
+                        <el-button size="small" type="primary" @click="checkModifyLevel('modifyLevel')" :disabled="changeLeverVisible">修改杠杆</el-button>
+                        <el-button size="small" class="smallGrayBtn" @click="cancelModifyLevel">取消</el-button>
                     </el-form-item>
                     <el-form-item v-if="changeLeverVisible" class="noBottom">
                         <span style="font-size: 12px;color: #ff5353">等待杠杆修改审核成功</span>
                     </el-form-item>
                 </el-form>
             </el-dialog>
-            <el-dialog title="创建MT4交易账户" :visible.sync="mtDialogVisible" class="mt4Dialog" :before-close="closeDialog">
-                <el-form :model="mt4ApplyInfo" label-width="100px" label-position="left" ref="mt4ApplyInfo" :rules="mt4ApplyInfo_rules">
-                    <el-form-item label="杠杆" prop="UserLeverage">
-                        <el-select v-model="mt4ApplyInfo.UserLeverage" @key.native.enter="confirmMT4Apply('mt4ApplyInfo')">
-                            <el-option v-for="level in levelList" :key="level.value" :label="level.label" :value="level.value"></el-option>
-                        </el-select>
-                    </el-form-item>
+            <el-dialog title="创建MT4交易账户" :visible.sync="mtDialogVisible" class="dialogInit applyMt4" :before-close="closeDialog">
+                <el-form :model="mt4ApplyInfo" label-width="80px" ref="mt4ApplyInfo" :rules="mt4ApplyInfo_rules">
+                    <el-row>
+                        <el-col :span="12">
+                            <el-form-item label="姓名:" prop="IDName">
+                                <el-input v-model="mt4ApplyInfo.IDName" disabled=""></el-input>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="12">
+                            <el-form-item label="证件号码:" prop="UserIRD">
+                                <el-input v-model="mt4ApplyInfo.UserIRD" disabled=""></el-input>
+                            </el-form-item>
+                        </el-col>
+                    </el-row>
+                    <el-row>
+                        <el-col :span="12">
+                            <el-form-item label="邮箱:" prop="UserEmail">
+                                <el-input v-model="mt4ApplyInfo.UserEmail" disabled=""></el-input>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="12">
+                            <el-form-item label="手机:" prop="UserPhone">
+                                <el-input v-model="mt4ApplyInfo.UserPhone" disabled=""></el-input>
+                            </el-form-item>
+                        </el-col>
+                    </el-row>
+                    <el-row>
+                        <el-col :span="12">
+                            <el-form-item label="杠杆:" prop="UserLeverage">
+                                <el-select v-model="mt4ApplyInfo.UserLeverage" @key.native.enter="confirmMT4Apply('mt4ApplyInfo')">
+                                    <el-option v-for="level in levelList" :key="level" :label="'1:'+level" :value="level"></el-option>
+                                </el-select>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="12">
+                            <el-form-item label="主密码:" prop="UserPwd">
+                                <el-input v-model="mt4ApplyInfo.UserPwd" @key.native.enter="confirmMT4Apply('mt4ApplyInfo')"
+                                          placeholder="请输入主密码"></el-input>
+                            </el-form-item>
+                        </el-col>
+                    </el-row>
+                    <el-row>
+                        <el-col :span="12">
+                            <el-form-item label="观摩密码" prop="UserInvestorpwd">
+                                <el-input v-model="mt4ApplyInfo.UserInvestorpwd " @key.native.enter="confirmMT4Apply('mt4ApplyInfo')"
+                                          placeholder="请输入观摩密码"></el-input>
+                            </el-form-item>
+                        </el-col>
+                    </el-row>
                     <el-form-item>
                         总共可以开通5个账户,您还可以开通 <span style="color:red;">{{canApplyMt4}}</span>账户
                     </el-form-item>
                     <el-form-item>
-                        <el-button size="small" type="info" @click="confirmMT4Apply('mt4ApplyInfo')"
+                        <el-button size="small" type="primary" @click="confirmMT4Apply('mt4ApplyInfo')"
                                    v-loading="MT4ApplyLoading"
                                    element-loading-spinner="el-icon-loading"
                                    element-loading-background="rgba(0, 0, 0, 0.8)" :disabled="MT4ApplyLoading">确认申请</el-button>
-                        <el-button size="small" type="" @click="cancelMT4Apply">取消</el-button>
+                        <el-button size="small" class="smallGrayBtn" @click="cancelMT4Apply">取消</el-button>
                     </el-form-item>
                 </el-form>
             </el-dialog>

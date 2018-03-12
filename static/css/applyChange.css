@@ -1,25 +1,8 @@
-.modify .noticeTag,
-.modifyLever .noticeTag {
-    padding-left: 4%;
-}
-
-.modify .noticeTag > i,
-.modifyLever .noticeTag > i {
-    display: inline-block;
-    width: 10px;
-    height: 10px;
-    background: url("../img/point.png") no-repeat top left;
-    background-size: 100%;
-}
-
-.modify .noticeTag > p,
-.modifyLever .noticeTag > p {
-    display: inline-block;
-    width: 87%;
-    padding-left: 2%;
-}
 
 /*ModifyPwd页面*/
+.modifyPwd .baseTableContent {
+    /*width: 100%;*/
+}
 .modifyPwd .el-tabs__content {
     overflow: visible;
 }
@@ -70,11 +53,3 @@
     margin-bottom: 40px;
 }
 
-/*ModifyLever*/
-.modifyLever .baseTableContent .lever.el-form-item:last-child .el-form-item__content {
-    padding-left: 4%;
-}
-
-.modifyLever > .baseTableContent:last-child .el-form-item {
-    margin-bottom: 22px;
-}

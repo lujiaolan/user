@@ -34,7 +34,7 @@ export default {
                         if(value){
                             this.$ajax({
                                 method:'post',
-                                url:'/check/validCode',
+                                url:'/other/check/validCode',
                                 data:{
                                     validCode:value,
                                 }
@@ -61,7 +61,7 @@ export default {
                             if(/^1[3,4,5,7,8]\d{9}$/.test(value)){
                               this.$ajax({
                                   method:'post',
-                                  url:'/user/dumpRepeat',
+                                  url:'/other/user/dumpRepeat',
                                   data:{
                                       apId:this.agentAccountForm.apId,
                                       userPhone:value
@@ -106,7 +106,7 @@ export default {
                             if(/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/.test(value)){
                                 this.$ajax({
                                     method:'post',
-                                    url:'/user/dumpRepeat',
+                                    url:'/other/user/dumpRepeat',
                                     data:{
                                         apId:this.agentAccountForm.apId,
                                         userEmail:value
@@ -170,7 +170,7 @@ export default {
                             }else{
                                 this.$ajax({
                                     method:'get',
-                                    url:'user/'+value+'/superInfo'
+                                    url:'/other/user/'+value+'/superInfo'
                                 }).then(function (res) {
                                     if(res.data.retCode==0){
                                         if(res.data.data.agentLevel==5&&res.data.data.agentLevel){
@@ -209,7 +209,7 @@ export default {
             }else {
                 self.$ajax({
                     method:'get',
-                    url:'/user/'+postAgent+'/superInfo',
+                    url:'/other/user/'+postAgent+'/superInfo',
                 }).then(function (res) {
                     if(res.data.retCode==0){
                         if(res.data.data.agentLevel&&res.data.data.agentLevel==5){
@@ -252,63 +252,63 @@ export default {
         registerValidate(){
             // console.log(this.$store.state.domain.domain.domain);
             const self = this;
+            this.start = true;
             if (self.agentAccountForm.userEmail) {
                 if (self.$store.state.domain.domain.domain) {
                     if (/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/.test(self.agentAccountForm.userEmail)) {
-                        self.$ajax({
-                            method:'post',
-                            url:'/user/dumpRepeat',
-                            data:{
-                                apId:self.agentAccountForm.apId,
-                                userEmail:self.agentAccountForm.userEmail
-                            }
-                        }).then(function (res) {
-                            if(res.data.retCode==0){
-                                self.getIdCodeLoading = true;
-                                self.$ajax({
-                                    method: 'post',
-                                    url: '/registered/validCode',
-                                    data: {
-                                        userEmail: self.agentAccountForm.userEmail,
-                                        apId: self.$store.state.domain.domain.domain.apId
-                                    }
-                                }).then(function (res) {
-                                    if (res.data.retCode == 0) {
-                                        self.$message({
-                                            message: '发送验证码成功',
-                                            type: 'info',
-                                            showClose: true
-                                        });
-                                        self.getIdCodeLoading = false;
-                                        self.sendCode();
-                                    } else {
-                                        self.$message({
-                                            message: '发送验证码失败,请重新发送',
-                                            type: 'warning',
-                                            showClose: true
-                                        });
-                                        self.getIdCodeLoading = false;
-                                    }
-                                }).catch(function (err) {
+                            self.getIdCodeLoading = true;
+                            self.$ajax({
+                                method: 'post',
+                                url: '/other/registered/validCode',
+                                data: {
+                                    userEmail: self.agentAccountForm.userEmail,
+                                    apId: self.$store.state.domain.domain.domain.apId
+                                }
+                            }).then(function (res) {
+                                if (res.data.retCode == 0) {
                                     self.$message({
-                                        message: '网络错误',
-                                        type: 'error',
+                                        message: '发送验证码成功',
+                                        type: 'info',
                                         showClose: true
                                     });
                                     self.getIdCodeLoading = false;
-                                })
-                            }
-                        }).catch(function (err) {
-                        })
+                                    self.sendCode();
+                                } else {
+                                    self.$message({
+                                        message: '发送验证码失败,请重新发送',
+                                        type: 'warning',
+                                        showClose: true
+                                    });
+                                    self.getIdCodeLoading = false;
+                                    self.start = false;
+                                }
+                            }).catch(function (err) {
+                                self.$message({
+                                    message: '网络错误',
+                                    type: 'error',
+                                    showClose: true
+                                });
+                                self.start = false;
+                                self.getIdCodeLoading = false;
+                            })
                     }
                 }else {
                     self.$message({
-                        message: '查询不到机构,请确认是否有意这个机构',
+                        message: '查询不到机构,请确认是否存在这个机构',
                         type: 'warning',
                         showClose: true
                     });
                     self.getIdCodeLoading = false;
+                    self.start = false;
                 }
+            }else {
+                self.$message({
+                    message: '请输入邮箱',
+                    type: 'warning',
+                    showClose: true
+                });
+                self.getIdCodeLoading = false;
+                self.start = false;
             }
         },
         agentAccountRegister(formName) {
@@ -345,7 +345,7 @@ export default {
                     }
                     self.$ajax({
                         method:'post',
-                        url:'/agent/register',
+                        url:'/other/agent/register',
                         data:postData
                     }).then(function (res) {
                         if(res.data.retCode==0){

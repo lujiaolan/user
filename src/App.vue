@@ -16,19 +16,21 @@
                     domain:URL,
                     type:'agent',
                 };
+                console.log('agent')
+                console.log(postData)
                 this.$ajax({
                     method: 'post',
                     data:postData,
-                    url:'/ap/getApId'
+                    url:'/other/ap/getApId'
                 }).then(function (res) {
+                    console.log('getApId res')
                     console.log(res)
-                    console.log(res.data.data)
-                    self.$store.dispatch('update_domain',res.data.data)
-
+                    if(res.data.retCode==0){
+                        self.$store.dispatch('update_domain',res.data.data)
+                    }
                 }).catch(function (err) {
-                    console.log(err)
                 })
-            }
+            },
         },
         created(){
             this.getApId();

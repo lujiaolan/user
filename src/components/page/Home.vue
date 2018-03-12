@@ -2,7 +2,7 @@
     <div>
         <div class="title-card boxShadow">
             <div class="title-info-card width3">
-                <p>US {{ this.accounting.formatMoney($store.state.balance.money) }}</p>
+                <p>$ {{ this.accounting.formatMoney($store.state.balance.money,'',2) }}</p>
                 <p class="title-info-name">账户余额</p>
             </div>
             <div class="title-info-card width3">
@@ -32,21 +32,21 @@
 
                 </div>
             </el-card>
-            <el-card class="card-box boxShadow">
-                <div class="card-title">
-                    <i class="el-icon-date"></i>
-                    <span>通知公告</span>
-                </div>
-                <div class="card-info no-border">
-                    <div class="news-info"><p>啊是的不是都怪乎UU呀是德国的风格回复哪个环节而要让它有如一日体育台</p><span class="news-date">2017/9/4</span></div>
-                    <div class="news-info"><p>啊是的不是都怪乎UU呀是德国的风格回复哪个环节而要让它有如一日体育台</p><span class="news-date">2017/9/5</span></div>
-                    <div class="news-info"><p>啊是的不是都怪乎UU呀是德国的风格回复哪个环节而要让它有如一日体育台</p><span class="news-date">2017/9/6</span></div>
-                    <div class="news-info"><p>啊是的不是都怪乎UU呀是德国的风格回复哪个环节而要让它有如一日体育台</p><span class="news-date">2017/9/6</span></div>
-                    <div class="news-info"><p>啊是的不是都怪乎UU呀是德国的风格回复哪个环节而要让它有如一日体育台</p><span class="news-date">2017/9/6</span></div>
-                </div>
-            </el-card>
+            <!--<el-card class="card-box boxShadow">-->
+                <!--<div class="card-title">-->
+                    <!--<i class="el-icon-date"></i>-->
+                    <!--<span>通知公告</span>-->
+                <!--</div>-->
+                <!--<div class="card-info no-border">-->
+                    <!--<div class="news-info"><p>啊是的不是都怪乎UU呀是德国的风格回复哪个环节而要让它有如一日体育台</p><span class="news-date">2017/9/4</span></div>-->
+                    <!--<div class="news-info"><p>啊是的不是都怪乎UU呀是德国的风格回复哪个环节而要让它有如一日体育台</p><span class="news-date">2017/9/5</span></div>-->
+                    <!--<div class="news-info"><p>啊是的不是都怪乎UU呀是德国的风格回复哪个环节而要让它有如一日体育台</p><span class="news-date">2017/9/6</span></div>-->
+                    <!--<div class="news-info"><p>啊是的不是都怪乎UU呀是德国的风格回复哪个环节而要让它有如一日体育台</p><span class="news-date">2017/9/6</span></div>-->
+                    <!--<div class="news-info"><p>啊是的不是都怪乎UU呀是德国的风格回复哪个环节而要让它有如一日体育台</p><span class="news-date">2017/9/6</span></div>-->
+                <!--</div>-->
+            <!--</el-card>-->
         </div>
-        <div class="chart-wrap boxShadow">
+        <div class="chart-wrap boxShadow chart-one">
             <IEcharts :option="line"></IEcharts>
         </div>
         <div class="chart-wrap boxShadow">

@@ -1,22 +1,4 @@
-.moreInfo .detail-info {
-    width: 82%;
-    margin: 30px auto;
-    height: 50px;
-    line-height: 50px;
-    font-size: 18px;
-    background-color: #ebebeb;
-    border-radius: 4px;
-    padding: 0 4%;
-}
 
-.moreInfo .detail-info > span {
-    font-size: 16px;
-    font-weight: bold;
-}
-
-.moreInfo .detail-info > p {
-    display: inline-block;
-}
 
 /*suggest*/
 
@@ -44,10 +26,12 @@
 .download .downloadType > p {
     padding: 10px 0 10px;
 }
-.download .downloadType > .el-button {
+.download .downloadType > a {
     border: 1px solid #000;
     background-color: #000;
     color: #fff;
-    padding: 4px 15px;
+    padding: 1px 15px;
     border-radius: 10px;
+    font-size: 14px;
+    cursor: pointer;
 }

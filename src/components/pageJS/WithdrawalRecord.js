@@ -4,6 +4,7 @@
 export default {
     data() {
         return {
+            editableDate:false,
             widthdrawSearchTotal:null,
             detailTitle:'',
             detailDrawRecordShow:false,
@@ -31,6 +32,14 @@ export default {
                 {
                     value:'2',
                     label:'出金'
+                },
+                {
+                    value:'21',
+                    label:'系统入金'
+                },
+                {
+                    value:'22',
+                    label:'系统出金'
                 }
             ],
             pendingTableData: [],
@@ -258,7 +267,7 @@ export default {
         detailRecord(row){
 
             console.log(row.type)
-            if(row.type==='1'){
+            if(row.type===1){
                 this.detailTitle = '入金详情';
                 this.detailDrawRecordShow = true;
                 this.getDWRecord(row._id);
@@ -277,7 +286,7 @@ export default {
                 url:'/financial/'+val
             }).then(function (res) {
                 if(res.data.retCode==0){
-                    console.log(res)
+                    console.log('/financial/',res)
                     self.detailDrawRecordData = res.data.data;
                 }
             }).catch(function (err) {
@@ -329,11 +338,11 @@ export default {
                 console.log(res)
                 if(res.data.retCode==0){
                     self.completeTableData = res.data.data.data;
-                    self.completeTableData.forEach(function (item,index) {
-                       self.completeTableData[index].amount = self.accounting.formatMoney(item.amount,'',2,',','.');
-                       self.completeTableData[index].flowMoney = self.accounting.formatMoney(item.flowMoney,'',2,',','.');
-                    });
                     self.widthdrawSearchTotal = res.data.data.records;
+                    self.completeTableData.forEach(function (item,index) {
+                        self.completeTableData[index].amount = self.accounting.formatMoney(item.amount,'',2);
+                        self.completeTableData[index].flowMoney = self.accounting.formatMoney(item.flowMoney,'',2);
+                    })
                 }
             }).catch(function (err) {
 

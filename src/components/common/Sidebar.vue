@@ -47,8 +47,7 @@
                         <el-menu theme="default" mode="horizontal"
                                  :defaultActive="$store.state.curMenu.headerCurMenu"
                                  unique-opened router>
-                            <el-menu-item v-for="(child,cindex) in route.children" v-if="!child.hidden"
-                                          :index="child.path">
+                            <el-menu-item v-for="(child,cindex) in route.children" v-if="!child.hidden" :index="child.path">
                                 {{child.name}}
                             </el-menu-item>
                         </el-menu>
@@ -63,7 +62,7 @@
                 </div>
                 <div class="sidebar-info">
                     <div class="user-balance">
-                        <span>US {{ this.accounting.formatMoney($store.state.balance.money)}}</span>
+                        <span>$ {{ this.accounting.formatMoney($store.state.balance.money,'',2)}}</span>
                     </div>
                     <div class="user-balance-title">
                         电子钱包余额

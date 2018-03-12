@@ -3,6 +3,13 @@
  */
 export default {
     data: function () {
-        return {}
+        return {
+        }
+    },
+    methods: {
+
+    },
+    mounted(){
+
     }
 }

@@ -21,7 +21,7 @@
             <span>其他</span>
         </div>
         <div class="user-register">
-            <router-link v-if="agentRegisterShow" to="AgentAccount">申请成为代理</router-link>
+            <router-link v-if="/(0)/.test(this.$store.state.domain.domain.domain.openAccountType)" to="AgentAccount">申请成为代理</router-link>
         </div>
     </div>
 </template>

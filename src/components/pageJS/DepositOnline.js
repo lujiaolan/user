@@ -5,6 +5,7 @@ export default {
     data(){
         return{
             depositForm: {
+                onlineUrl: this.$store.state.baseUrl ,
                 payWay:'1',
                 apId:this.$store.state.domain.domain.domain.apId,
                 userId:this.$store.state.user.userinfo._id,
@@ -16,7 +17,8 @@ export default {
                 amount:'',
                 currentRate:0,
                 bankCode:'',
-                pay_bank_code:''
+                pay_bank_code:'',
+                pay_bankname:'',
                 // currency:''
             },
             HCInfoShow:'',
@@ -100,6 +102,68 @@ export default {
                 {
                     label:'中国银联',
                     value:'UNIONPAY'
+                }
+            ],
+            pay_banknameList:[
+                {
+                    label:'农业银行',
+                    value:'ABC'
+                },
+                {
+                    label:'工商银行',
+                    value:'ICBC'
+                },
+                {
+                    label:'招商银行',
+                    value:'CMB'
+                },
+                {
+                    label:'建设银行',
+                    value:'CCB'
+                },
+                {
+                    label:'浦发银行',
+                    value:'SPDB'
+                },
+                {
+                    label:'民生银行',
+                    value:'CMBC'
+                },
+                {
+                    label:'深圳发展银行斯蒂芬',
+                    value:'SDB'
+                },
+                {
+                    label:'兴业银行',
+                    value:'CIB'
+                },
+                {
+                    label:'交通银行',
+                    value:'BCOM'
+                },
+                {
+                    label:'光大银行',
+                    value:'CEBB'
+                },
+                {
+                    label:'中国银行',
+                    value:'BOC'
+                },
+                {
+                    label:'平安银行',
+                    value:'SPABANK'
+                },
+                {
+                    label:'广发银行',
+                    value:'GDB'
+                },
+                {
+                    label:'中信银行',
+                    value:'ECITIC'
+                },
+                {
+                    label:'宁波银行',
+                    value:'NBB'
                 }
             ],
             bankCodeShList:[
@@ -236,8 +300,28 @@ export default {
                                                 callback(new Error('查询错误'))
                                             })
                                         }
-                                    }else{
-                                        callback()
+                                    }
+                                    else{
+                                        this.$ajax({
+                                            method:'get',
+                                            url:this.$store.state.domain.domain.domain.apId+'/1/financialRule'
+                                        }).then(function (res) {
+                                            if(res.data.retCode==0){
+                                                if(res.data.data.depositConfig.depositMin<=value){
+                                                    if(res.data.data.depositConfig.depositMax>=value){
+                                                        callback()
+                                                    }else{
+                                                        callback(new Error('入金金额不能大于设置的单笔最高'))
+                                                    }
+                                                }else{
+                                                    callback(new Error('入金金额不能小于设置的单笔最低'));
+                                                }
+                                            }else{
+                                                callback(new Error('查询错误'))
+                                            }
+                                        }).catch(function (err) {
+                                            callback(new Error('查询错误'))
+                                        })
                                     }
 
                                 }else{
@@ -278,9 +362,8 @@ export default {
                         required:true,
                         trigger:'blur',
                         validator:(rules,value,callback)=>{
-                            if(this.HCInfoShow==='HC'){
+                            if(this.HCInfoShow=='HC'){
                                 if(value==''){
-
                                     callback(new Error('请选择银行'))
                                 }else {
                                     callback()
@@ -291,6 +374,23 @@ export default {
                         }
                     }
                 ],
+                pay_bankname:[
+                    {
+                        required:true,
+                        trigger:'blur',
+                        validator:(rules,value,callback)=>{
+                            if(this.HCInfoShow=='payCv'){
+                                if(value==''||value==undefined||value==null){
+                                    callback(new Error('请选择银行'))
+                                }else {
+                                    callback()
+                                }
+                            }else{
+                                callback()
+                            }
+                        }
+                    }
+                ]
                 // currency:[
                 //     {
                 //         required:true,
@@ -328,6 +428,10 @@ export default {
                     this.HCInfoShow = 'shqq';
                 }else if(value[0].nameThreePaPay=='wlkj'){
                     this.HCInfoShow = 'WLKJ';
+                }else if(value[0].nameThreePaPay=='payCv'){
+                    this.HCInfoShow = 'payCv';
+                }else if(value[0].nameThreePaPay=='ytm'){
+                    this.HCInfoShow = 'ytm';
                 }
                 else{
                     this.HCInfoShow = '';
@@ -400,6 +504,33 @@ export default {
                     pay_bank_code:'ICBC',
                     pay_remark:''
                 };
+            }else if(this.HCInfoShow=='payCv'){
+                postData = {
+                    apId:this.depositForm.apId,
+                    nameThreePaPay:nameThree,
+                    currentRate:this.depositForm.currentRate,
+                    dollar:this.depositForm.amount,
+                    userId:this.depositForm.userId,
+                    userEmail:this.depositForm.userEmail,
+                    IDName:this.depositForm.IDName,
+                    pay_amount:this.depositForm.order_amount,
+                    pay_bankname:this.depositForm. pay_bankname,
+                }
+            }else if(this.HCInfoShow=='ytm'){
+                let ytmpay = null;
+                if(this.depositForm.order_amount){
+                    ytmpay = parseFloat((this.depositForm.order_amount*100).toFixed(2));
+                }
+                postData = {
+                    apId:this.depositForm.apId,
+                    nameThreePaPay:nameThree,
+                    currentRate:this.depositForm.currentRate,
+                    dollar:this.depositForm.amount,
+                    userId:this.depositForm.userId,
+                    userEmail:this.depositForm.userEmail,
+                    IDName:this.depositForm.IDName,
+                    amount:ytmpay,
+                }
             }
             console.log(this.depositForm)
             console.log('this.depositForm')
@@ -410,39 +541,82 @@ export default {
                     console.log('this.depositForm.nameThreePaPay[0].payUrl')
                     console.log(this.depositForm.nameThreePaPay[0].payUrl)
                     // const  postUrl = "http://pay3.zuiyao.top:8080"+this.depositForm.nameThreePaPay[0].payUrl;//线上
-                    const  postUrl = "http://120.77.55.98:8080"+this.depositForm.nameThreePaPay[0].payUrl;//NUN
-                    // const  postUrl = "http://pay2.zuiyao.top:8080"+this.depositForm.nameThreePaPay[0].payUrl; //测试库
+                    // const  postUrl = 'http://hkdc1.crm79.com'+this.depositForm.nameThreePaPay[0].payUrl;//NUN
+                    // const  postUrl = 'http://backupserver1.crm79.com:8080'+this.depositForm.nameThreePaPay[0].payUrl;//NUN
+                    // const  postUrl = 'http://hkdc2.crm79.com'+this.depositForm.nameThreePaPay[0].payUrl;//NUN
+                    const  postUrl = "http://pay2.zuiyao.top:8080"+this.depositForm.nameThreePaPay[0].payUrl; //测试库
                     // const  postUrl = "http://localhost:8080"+this.depositForm.nameThreePaPay[0].payUrl;
                     self.$ajax({
                         method:'post',
                         url:postUrl,
                         data:postData
                     }).then(function (res) {
+                        console.log('三方接口')
+                        console.log(res)
                         if(res.data.retCode==0){
-                            console.log(res);
-                            // /crm/pay/:orderId/url/zbf
-                            const payData = res.data.data.url;
-                            const num=payData.split("/")
-                            console.log(payData.substring(1,5))
-                            console.log(num[0],num[1],num[2])
-                            // const urlPost = 'http://pay3.zuiyao.top:8080/'+num[1]+'/'+num[2]+'/'+res.data.data.orderId+'/'+num[3]+'/'+num[4];//线上
-                            const urlPost = 'http://120.77.55.98:8080/'+num[1]+'/'+num[2]+'/'+res.data.data.orderId+'/'+num[3]+'/'+num[4];//NUN
-                            // const urlPost = 'http://pay2.zuiyao.top:8080/'+num[1]+'/'+num[2]+'/'+res.data.data.orderId+'/'+num[3]+'/'+num[4];//测试库
-                            // const urlPost = 'http://localhost:8080/'+num[1]+'/'+num[2]+'/'+res.data.data.orderId+'/'+num[3]+'/'+num[4];
-                            console.log(urlPost);
-                            //  window.open(window.location.origin + 'https://www.baidu.com/')
-                            //  window.open(window.location. origin + '/a/b/c')
-                            // window.open('https://www.baidu.com/')
-                            //  window.open('https://www.baidu.com/')
-                            self.$confirm('温馨提示:请在新打开的支付页面进行支付!','入金',{
-                                confirmButtonText:'完成支付',
-                                cancelButtonText:'支付失败',
-                            }).then(()=>{
-                                self.$router.push('/fundAccess/withdrawalRecord')
-                            }).catch(()=>{
+                            console.log('三方接口第二步')
+                            if(self.HCInfoShow=='ytm'){
+                                console.log('三方接口第三步')
+                                console.log(res.data.data.context)
+                                // self.$ajax({
+                                //     method:'post',
+                                //     dataType: 'JSONP',
+                                //     url:'http://www.yitianmao.com/cgi-bin/gateway_pay.cgi',
+                                //     data:res.data.data.context
+                                // }).then(function (res) {
+                                //     console.log('ytm')
+                                //     console.log('hahahha')
+                                //     console.log(res)
+                                // }).catch(function (err) {
+                                //     console.log('ytm错误  ')
+                                //     console.log(err)
+                                // })
+                                $.ajax({
+                                    type: "POST",
+                                    dataType: 'JSONP',
+                                    async: false,
+                                    url:"http://www.yitianmao.com/cgi-bin/gateway_pay_pho.cgi",
+                                    data: JSON.stringify(res.data.data.context),
+                                    error: function(data,type,err) {
+                                        console.log('err')
+                                        console.log(data)
+                                        console.log(type)
+                                        console.log(err)
+                                    },
+                                    success: function(data,textStatus) {
+                                        console.log(data);
+                                        console.log(textStatus);
+                                    },
 
-                            });
-                            window.open(urlPost)
+                                });
+                            }else{
+                                console.log('没有进入YTM')
+                                console.log(res);
+                                // /crm/pay/:orderId/url/zbf
+                                const payData = res.data.data.url;
+                                const num=payData.split("/")
+                                console.log(payData.substring(1,5))
+                                console.log(num[0],num[1],num[2])
+                                // const urlPost = 'http://pay3.zuiyao.top:8080/'+num[1]+'/'+num[2]+'/'+res.data.data.orderId+'/'+num[3]+'/'+num[4];//线上
+                                // const urlPost = 'http://hkdc1.crm79.com/'+num[1]+'/'+num[2]+'/'+res.data.data.orderId+'/'+num[3]+'/'+num[4];//NUN
+                                // const urlPost = 'http://hkdc1.crm79.com/'+num[1]+'/'+num[2]+'/'+res.data.data.orderId+'/'+num[3]+'/'+num[4];//NUN
+                                // const urlPost = 'http://backupserver1.crm79.com:8080/'+num[1]+'/'+num[2]+'/'+res.data.data.orderId+'/'+num[3]+'/'+num[4];//NUN
+                                const urlPost = 'http://pay2.zuiyao.top:8080/'+num[1]+'/'+num[2]+'/'+res.data.data.orderId+'/'+num[3]+'/'+num[4];//测试库
+                                console.log(urlPost);
+                                // const urlPost = 'http://localhost:8080/'+num[1]+'/'+num[2]+'/'+res.data.data.orderId+'/'+num[3]+'/'+num[4];
+                                self.$confirm('温馨提示:请在新打开的支付页面进行支付!','入金',{
+                                    confirmButtonText:'完成支付',
+                                    cancelButtonText:'支付失败',
+                                }).then(()=>{
+                                    self.$router.push('/fundAccess/withdrawalRecord')
+                                }).catch(()=>{
+
+                                });
+                                window.open(urlPost)
+                            }
+
+
+
                         }
                     }).catch(function (err) {
 
@@ -488,12 +662,16 @@ export default {
                 if(res.data.retCode==0){
                     console.log('res.data')
                     console.log(res.data)
-                    if(res.data.data.depositConfig.depositRateAdjust==null||res.data.data.depositConfig.depositRateAdjust==undefined){
+                    if(res.data.data.depositConfig.depositRateAdjust==0||res.data.data.depositConfig.depositRateAdjust==null||res.data.data.depositConfig.depositRateAdjust==undefined){
                         self.depositForm.currentRate = res.data.data.depositConfig.depositReplaceRate;
                     }else{
-                        self.depositForm.currentRate  = res.data.data.depositConfig.depositAdjustAmount;
-                    }
+                        if(res.data.data.depositConfig.depositReplaceRate==0||res.data.data.depositConfig.depositReplaceRate==null||res.data.data.depositConfig.depositReplaceRate==undefined){
+                            self.depositForm.currentRate  = res.data.data.depositConfig.depositFixedRate;
+                        }else{
 
+                            self.depositForm.currentRate  = res.data.data.depositConfig.depositRateAdjust;
+                        }
+                    }
                 }
             }).catch(function (err) {
 

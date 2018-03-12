@@ -5,10 +5,11 @@ export default {
     },
     data(){
         return {
+            commissionDetail: 'first',
             pancake: null,
             tableData: [],
             pancakeData:[],
-
+            editableDate:false,
             commissionSelect: {
                 mt4Account: '',
                 statusValue: '2',
@@ -85,7 +86,9 @@ export default {
             historyPaginationData: {
                 page: 1,
                 pageSize: 10
-            }
+            },
+
+            pageVisible: false
         }
     },
     created() {
@@ -99,7 +102,8 @@ export default {
                 title: {
                     text: '返佣分析',
                     textStyle: {
-                        fontSize: 15
+                        fontSize: 14,
+                        fontFamily: 'PingFang SC'
                     },
                     y: 0
                 },
@@ -184,9 +188,10 @@ export default {
             }
         },
         // 获取数据
-        getCommHistoryData(){
-            var self = this;
-            var postData = {};
+        // 默认的请求的申请审核的佣金账单数据，也就是单条的平仓单的数据
+        getAllData(){
+            const self = this;
+            const postData = {};
             postData.userId = self.$store.state.user.userinfo._id;
             postData.page = self.historyPaginationData.page.toString();
             postData.pageSize = self.historyPaginationData.pageSize.toString();
@@ -200,7 +205,6 @@ export default {
             }
             postData.timeType = self.commissionSelect.timeType;
             // console.log(postData);
-
             self.$ajax({
                 method:'post',
                 data:postData,
@@ -210,16 +214,57 @@ export default {
                 if (res.data.retCode === 0) {
                     self.commHistoryData = res.data.data.data ;
                     self.commHistoryData.forEach(function (item,index) {
-                       self.commHistoryData[index].money = self.accounting.formatMoney(item.money);
-                       self.commHistoryData[index].commissionMoney = self.accounting.formatMoney(item.commissionMoney);
+                        self.commHistoryData[index].money = self.accounting.formatMoney(item.money);
+                        self.commHistoryData[index].commissionMoney = self.accounting.formatMoney(item.commissionMoney);
                     });
-                    self.commHistoryData.totalCountApply = res.data.data.total;
+                    self.commHistoryData.totalCountApply = res.data.data.records;
                     // console.log(self.commHistoryData);
                 }else {
                     self.$message.error(res.data.message);
                 }
             }).catch(function (err) {
                 self.$message.error("网络错误");
+            });
+        },
+        // 不是默认的，根据合并申请的订单编号的该交易编号的详细的订单数据
+        getDetailData(){
+            const self = this;
+            const postData = {
+                commSumId: self.$store.state.detail.detailId
+            };
+            this.$ajax({
+                method: 'post',
+                data: postData,
+                url: '/commission/sum/subAll'
+            }).then(function (res) {
+                console.log(res);
+                if(res.data.retCode === 0){
+                    self.commHistoryData = res.data.data;
+                    self.commHistoryData.forEach(function (item,index) {
+                        self.commHistoryData[index].money = self.accounting.formatMoney(item.money);
+                        self.commHistoryData[index].commissionMoney = self.accounting.formatMoney(item.commissionMoney);
+                    });
+                }else {
+                    self.$message({
+                        type: 'error',
+                        message: res.data.data.errMsg
+                    })
+                }
+            }).catch(function () {
+
+            })
+        },
+        getCommHistoryData(){
+            if(this.$store.state.detail.detailVisible){
+                this.getDetailData();
+                this.pageVisible = false;
+            }else {
+                this.getAllData();
+                this.pageVisible = true;
+            }
+            this.$store.dispatch('update_detail_id',{
+                detailId: '',
+                detailVisible: false,
             });
         },
         // 搜索按钮

@@ -5,7 +5,6 @@ export default {
     data() {
         return {
             registerMt4Loading: false,
-            agentRegisterShow:'',
             demoAccountForm: {
                 IDName:'',
                 apId:this.$store.state.domain.domain.domain.apId,
@@ -48,14 +47,24 @@ export default {
                     theh.registerMt4Loading = true;
                     this.$ajax({
                         method: 'post',
-                        url: '/apply/mt4',
+                        url: '/other/apply/mt4',
                         data: this.demoAccountForm
                     }).then(function (res) {
                         console.log(res);
                         if(res.data.retCode==0){
                             theh.$message({
                                 type:'info',
-                                message:'注册成功,请查收邮箱',
+                                // message:'注册成功,请查收邮箱',
+                                message:'邮件发送成功，请注意查收',
+                                showClose:true
+                            });
+                            theh.$refs[formName].resetFields();
+                            theh.registerMt4Loading = false;
+                        }else if(res.data.retCode==1){
+                            theh.$message({
+                                type:'info',
+                                // message:'注册成功,请查收邮箱',
+                                message:'操作成功，请稍后查收邮件',
                                 showClose:true
                             });
                             theh.$refs[formName].resetFields();
@@ -63,7 +72,8 @@ export default {
                         }else{
                             theh.$message({
                                 type:'warning',
-                                message:'注册失败,请重新注册',
+                                // message:'注册失败,请重新注册',
+                                message:'操作失败，请稍后再试',
                                 showClose:true
                             })
                             theh.registerMt4Loading = false;
@@ -83,14 +93,6 @@ export default {
         }
     },
     mounted(){
-        const myReg = /(0)/;
-        if(myReg.test(this.$store.state.domain.domain.domain.openAccountType)){
-            console.log('有零');
-            this.agentRegisterShow = '可以显示';
-        }else{
-            this.agentRegisterShow = '';
-        }
-        console.log('demoAccountRegister');
-        console.log(this.$store.state.domain.domain.domain)
+
     }
 }

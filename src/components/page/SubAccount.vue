@@ -1,6 +1,6 @@
 <template>
     <div class="subAccount">
-        <div class="baseTableContent width450">
+        <div class="baseTableContent">
             <div class="infoList-title">转入操作</div>
             <el-form ref="inCashForm" :model="inCashForm" label-width="80px">
                 <el-form-item class="beforeTag">
@@ -30,7 +30,7 @@
 </template>
 
 <script>
-    module.exports = require('../pageJS/subAccount')
+    module.exports = require('../pageJS/SubAccount')
 </script>
 
 <style scoped>

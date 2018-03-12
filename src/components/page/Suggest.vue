@@ -1,6 +1,6 @@
 <template>
     <div class="suggest">
-        <div class="baseTableContent width450">
+        <div class="baseTableContent width100">
             <div class="infoList-title">投诉建议</div>
             <el-form ref="suggestForm" :model="suggestForm">
                 <el-form-item>

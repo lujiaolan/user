@@ -3,7 +3,9 @@ export default {
         return {
             upLeverAgent: '麻子',
             LeverAgentId: '178653',
-            tipInfo: [{info: '111111'},{info: '222222'},{info: '33333333'},{info: '4444444'},{info: '55555'}],
+            tipInfo: [
+                // {info: '111111'},{info: '222222'},{info: '33333333'},{info: '4444444'},{info: '55555'}
+                ],
 
             userId : this.$store.state.user.userinfo._id,
 
@@ -14,11 +16,12 @@ export default {
         }
     },
     mounted() {
+        this.getJudgeId();
         this.updateCurMenu();
         this.username();
         this.getBalance();
-        this.getJudgeId();
-        this.getVerifyStatus()
+        this.getVerifyStatus();
+        this.getCompanyInfo();
     },
     methods: {
         singOut(){
@@ -123,6 +126,31 @@ export default {
             this.curMenu.leftMenu = '/accountManagement';
             this.curMenu.headerMenu = '/accountManagement/myInfo';
             this.$store.dispatch('set_cur_menu',this.curMenu);
-        }
+        },
+
+
+        getCompanyInfo(){
+            const self = this;
+            console.log('self.$store.state.domain.domain.domain.apId',self.$store.state.domain.domain.domain.apId);
+            self.$ajax({
+                method: 'get',
+                url: '/ap/info/' + self.$store.state.domain.domain.domain.apId
+            }).then(function (res) {
+                console.log(res);
+                if(res.data.retCode === 0){
+                    console.log('getCompanyInfo',res.data.data);
+                    self.$store.dispatch('update_company_info',res.data.data);
+                    console.log('self.$store.state.companyInfo',self.$store.state.companyInfo)
+                    // if(res.data.data === ''){
+                    //     self.infoForm = ''
+                    // }else {
+                    //     self.infoForm = res.data.data
+                    // }
+                }else {
+
+                }
+            }).catch(function () {
+            })
+        },
     },
 }

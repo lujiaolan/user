@@ -47,7 +47,7 @@ export default {
                         if(value){
                             this.$ajax({
                                 method: 'post',
-                                url: '/check/validCode',
+                                url: '/other/check/validCode',
                                 data: {
                                     validCode: value
                                 }
@@ -115,7 +115,7 @@ export default {
                     if(self.$store.state.domain.domain.domain.apId){
                         this.$ajax({
                             method: 'post',
-                            url: "/user/userEmail/resetUserPwd",
+                            url: "/other/user/userEmail/resetUserPwd",
                             data: {
                                 apId: self.$store.state.domain.domain.domain.apId,
                                 password: MD5(self.forgotNumForm.newPwd),
@@ -158,12 +158,13 @@ export default {
         },
         forgetValid(){
             const self = this;
+            this.start = true;
             console.log('hahah')
             if(this.forgotNumForm.email){
                 if(/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/.test(this.forgotNumForm.email)){
                     this.$ajax({
                         method: 'post',
-                        url: '/pwdReset/validCode',
+                        url: '/other/pwdReset/validCode',
                         data: {
                             userEmail: self.forgotNumForm.email,
                             apId: self.$store.state.domain.domain.domain.apId
@@ -181,14 +182,16 @@ export default {
                                 type:'warning',
                                 showClose:true,
                                 message:'发送错误,请重新发送'
-                            })
+                            });
+                            self.start = false;
                         }
                     }).catch(function (err) {
                         self.$message({
                             type:'error',
                             showClose:true,
                             message:'网络错误'
-                        })
+                        });
+                        self.start = false;
                     });
                 }else{
                     // callback(new Error('邮箱格式不对,请重新输入'))
@@ -198,14 +201,15 @@ export default {
                     type:'warning',
                     showClose:true,
                     message:'请输入邮箱'
-                })
+                });
+                self.start = false;
             }
         },
         checkValid(){
             const theh = this;
             this.$ajax({
                 method: 'post',
-                url: '/check/validCode',
+                url: '/other/check/validCode',
                 data: {
                     validCode: this.forgotNumForm.idCode
                 }

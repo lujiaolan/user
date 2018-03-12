@@ -26,3 +26,32 @@ new Vue({
     store,
     render: h => h(App)
 }).$mount('#app');
+
+
+router.beforeEach((to,from,next)=>{
+    if(to.matched.some(r=>r.meta.requireAuth)){
+        const apToken = store.state.token.token.token;
+        console.log('apToken')
+        console.log(apToken)
+        if(to.meta.requireAuth){
+            if(apToken==undefined||apToken==''){
+                if(to.path=='/loginExpires'){
+                    next()
+                }else{
+                    next({
+                        name:'loginExpires',
+                        query:{
+                            redirect:to
+                        }
+                    })
+                }
+            }else{
+                next()
+            }
+        }else{
+            next()
+        }
+    }else{
+        next()
+    }
+});

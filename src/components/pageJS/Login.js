@@ -88,7 +88,7 @@ export default {
             self.loginLoading = true;
             this.$ajax({
                 method:'post',
-                url:'/login',
+                url:'/other/login',
                 data:val
             }).then(function (res) {
                 console.log('登录');
@@ -107,13 +107,13 @@ export default {
                                 username: self.loginForm.username,
                                 token: res.data.data.token
                             }
-
-                        },)
+                        });
                     }
+                    self.$store.dispatch('update_token',{token:res.data.data.token});
                     if(res.data.data.role==='agent'){
                         self.$ajax({
                             method:'get',
-                            url:'/user/'+res.data.data._id,
+                            url:'/other/user/'+res.data.data._id,
                         }).then(function (res) {
                             if(res.data.retCode===0){
                                 self.$store.dispatch('update_userinfo',{userinfo:res.data.data});
@@ -134,23 +134,23 @@ export default {
                     self.loginLoading = false;
                 }else{
                     self.loginLoading = false;
-                    if(res.data.data.status==='0'){
+                    if(res.data.data.status===0){
                         self.$message({
                             type:'warning',
                             showClose:true,
                             message:'用户未激活,请前往邮箱激活'
                         })
-                    }else if(res.data.data.status==='-1'){
+                    }else if(res.data.data.status===-1){
                         self.$message({
                             type:'warning',
                             showClose:true,
-                            message:'未法用户'
+                            message:'您的账户已冻结，具体情况请咨询客服'
                         })
-                    }else if(res.data.data.status==='2'){
+                    }else if(res.data.data.status===2){
                         self.$message({
                             type:'warning',
                             showClose:true,
-                            message:'账户已冻结,请联系客服'
+                            message:'您的账户已暂停，具体情况请咨询客服'
                         })
                     }else{
                         self.$message({
@@ -160,7 +160,6 @@ export default {
                         })
                     }
                 }
-                localStorage.setItem('ms_username',self.loginForm.username);
             }).catch(function (err) {
                 console.log("登录");
                 console.log(err);
@@ -187,7 +186,7 @@ export default {
             this.$ajax({
                 method: 'post',
                 data:postData,
-                url:'/ap/getApId'
+                url:'/other/ap/getApId'
             }).then(function (res) {
                 console.log(res);
                 console.log(res.data.data);
